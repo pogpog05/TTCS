@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dịch vụ - Barber Shop</title>
+    <link rel="stylesheet" href="../../css/css-client/style.css" />
+    <link rel="stylesheet" href="../../css/css-client/services-style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <div class="hamburger-icon"><i class="fas fa-bars"></i></div>
+        <div class="mobile-menu-overlay">
+          <div class="mobile-menu-content">
+            <div class="close-icon"><i class="fas fa-times"></i></div>
+            <nav class="mobile-nav">
+              <ul>
+                <li><a href="index.html">Trang chủ</a></li>
+                <li><a href="about.html">Về chúng tôi</a></li>
+                <li><a href="services.html">Dịch vụ</a></li>
+              </ul>
+            </nav>
+            <div class="mobile-header-buttons" id="mobile-auth-container"></div>
+          </div>
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="about.html">Về chúng tôi</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+          </ul>
+        </nav>
+        <div class="header-buttons desktop-buttons">
+          <a href="appointment.html" class="btn primary-btn">Đặt lịch hẹn</a>
+        </div>
+
+        <div
+          class="header-buttons desktop-buttons"
+          id="auth-menu-container"
+        ></div>
+      </div>
+    </header>
+
+    <main class="services-main">
+      <div class="container">
+        <h1>Dịch vụ của chúng tôi</h1>
+        <p class="subtitle">
+          Những trải nghiệm đẳng cấp dành riêng cho quý ông
+        </p>
+
+        <section class="services-grid">
+          <div class="service-card">
+            <div class="service-image">
+              <img src="../../image/cat-toc.jpg" alt="Cắt tóc nam" />
+            </div>
+            <div class="service-content">
+              <h3>Cắt tóc nam</h3>
+              <p class="price">150.000đ - 300.000đ</p>
+              <p>
+                Cắt tỉa theo phong cách hiện đại hoặc cổ điển, phù hợp với khuôn
+                mặt và cá tính.
+              </p>
+              <a href="appointment.html" class="btn primary-btn"
+                >Đặt lịch ngay</a
+              >
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-image">
+              <img src="../../image/cao-rau.jpg" alt="Cạo râu" />
+            </div>
+            <div class="service-content">
+              <h3>Cạo râu truyền thống</h3>
+              <p class="price">200.000đ</p>
+              <p>
+                Sử dụng dao cạo chuyên nghiệp kết hợp dưỡng ẩm da, mang lại cảm
+                giác sảng khoái.
+              </p>
+              <a href="appointment.html" class="btn primary-btn"
+                >Đặt lịch ngay</a
+              >
+            </div>
+          </div>
+          <div class="service-card">
+            <div class="service-image">
+              <img src="../../image/uon-toc.jpg" alt="Uốn tóc" />
+            </div>
+            <div class="service-content">
+              <h3>Uốn tóc nam</h3>
+              <p class="price">400.000đ - 600.000đ</p>
+              <p>Uốn phồng, uốn lạnh hoặc uốn Hàn Quốc với hóa chất an toàn.</p>
+              <a href="appointment.html" class="btn primary-btn"
+                >Đặt lịch ngay</a
+              >
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer
+      style="
+        background-color: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>Barber Shop. All rights reserved.</p>
+    </footer>
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-client/auth-menu.js"></script>
+  </body>
+</html>

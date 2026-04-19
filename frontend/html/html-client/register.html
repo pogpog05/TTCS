@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đăng ký tài khoản - Barber Shop</title>
+    <link rel="stylesheet" href="../../css/css-client/style.css" />
+    <link rel="stylesheet" href="../../css/css-client/form-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="form-container">
+      <div class="back-to-home">
+        <a href="index.html"><i class="fas fa-arrow-left"></i></a>
+      </div>
+      <h2>Tạo Tài khoản</h2>
+      <p>Điền thông tin của bạn để bắt đầu</p>
+
+      <form id="register-form" onsubmit="return processRegisterAPI(event);">
+        <div class="form-group">
+          <span class="icon"><i class="fas fa-user"></i></span>
+          <input type="text" name="fullname" placeholder="Họ và tên" required />
+        </div>
+        <div class="form-group">
+          <span class="icon"><i class="fas fa-envelope"></i></span>
+          <input
+            type="email"
+            name="email"
+            placeholder="Địa chỉ Email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <span class="icon"><i class="fas fa-phone"></i></span>
+          <input type="tel" name="phone" placeholder="Số điện thoại" required />
+        </div>
+        <div class="form-group">
+          <span class="icon"><i class="fas fa-lock"></i></span>
+          <input
+            type="password"
+            name="password"
+            placeholder="Mật khẩu"
+            required
+          />
+        </div>
+        <button type="submit" class="btn-submit">Đăng ký</button>
+      </form>
+
+      <div class="login-link">
+        Bạn đã có tài khoản! <a href="login.html">Đăng nhập ngay</a>
+      </div>
+    </div>
+
+    <script>
+      function processRegisterAPI(event) {
+        event.preventDefault(); // CHẶN CHUYỂN TRANG
+
+        const formElement = document.getElementById("register-form");
+        const formData = new FormData(formElement);
+
+        fetch("../../../backend/register_process.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status === "success") {
+              alert("Đăng ký thành công! Vui lòng đăng nhập.");
+              window.location.href = "login.html";
+            } else {
+              alert(res.message || "Đăng ký thất bại!");
+            }
+          })
+          .catch((err) => {
+            console.error("Lỗi:", err);
+            alert("Lỗi kết nối đến Server Backend!");
+          });
+
+        return false;
+      }
+    </script>
+  </body>
+</html>

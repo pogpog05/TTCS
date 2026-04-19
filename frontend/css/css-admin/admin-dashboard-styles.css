@@ -1,0 +1,170 @@
+/* --- Style cho trang Tổng quan Quản lý --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 100px; /* Khoảng trống để tránh header trên desktop (Điều chỉnh nếu cần) */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+/* Container chứa các mục quản lý */
+.dashboard-container {
+  display: grid; /* Sử dụng Grid để tạo lưới */
+  /* Tạo cột: tự động điều chỉnh số cột, mỗi cột có chiều rộng tối thiểu 250px, tối đa 1fr (phần còn lại) */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px; /* Khoảng cách giữa các mục trong lưới */
+  margin-top: 20px;
+  /* Bỏ max-width và margin auto để container chiếm hết chiều rộng khả dụng trong .container */
+  /* max-width: 600px; */
+  /* margin-left: auto; */
+  /* margin-right: auto; */
+}
+
+/* Style cho từng mục trong dashboard */
+.dashboard-item {
+  background-color: #fff; /* Nền trắng */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-align: center; /* Căn giữa nội dung */
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease; /* Hiệu ứng hover */
+  /* Bỏ width 100% vì grid item tự điều chỉnh */
+  /* width: 100%; */
+}
+
+.dashboard-item:hover {
+  transform: translateY(-5px); /* Nâng nhẹ mục lên khi hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12); /* Tăng bóng đổ */
+}
+
+.dashboard-item a {
+  display: block; /* Đảm bảo toàn bộ khu vực mục có thể click */
+  color: inherit; /* Kế thừa màu chữ */
+  text-decoration: none;
+}
+
+.dashboard-item i {
+  font-size: 3em; /* Kích thước icon */
+  color: #ff7f00; /* Màu cam cho icon */
+  margin-bottom: 15px;
+}
+
+.dashboard-item h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 1.3em;
+}
+
+.dashboard-item p {
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+/* --- Style cho Nút Quay lại Tổng quan (Nếu sử dụng trên trang con) --- */
+.back-to-dashboard-btn {
+  display: inline-flex; /* Dùng flexbox để căn icon và text */
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa icon và text */
+  margin-bottom: 20px; /* Khoảng cách dưới nút */
+  color: #0275d8; /* Màu xanh dương (ví dụ) */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.back-to-dashboard-btn:hover {
+  color: #025aa5; /* Màu xanh dương đậm hơn khi hover */
+}
+
+.back-to-dashboard-btn i {
+  font-size: 1em; /* Kích thước icon */
+  color: #0275d8; /* Màu icon */
+  margin-bottom: 0; /* Reset margin-bottom từ style .dashboard-item i */
+}
+
+/* --- Responsive adjustments for Admin Dashboard page --- */
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px; /* Điều chỉnh padding top nếu header mobile nhỏ hơn */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+  .dashboard-container {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(200px, 1fr)
+    ); /* Điều chỉnh min-width cột */
+    gap: 15px; /* Giảm khoảng cách */
+    margin-top: 15px;
+    /* max-width: 95%; */ /* Bỏ max-width ở đây nếu đã bỏ ở trên */
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+  }
+  .dashboard-item {
+    padding: 15px;
+  }
+  .dashboard-item i {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+  }
+  .dashboard-item h2 {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+  }
+  .dashboard-item p {
+    font-size: 0.85em;
+  }
+
+  /* Responsive cho Nút Quay lại (Nếu sử dụng trên trang con) */
+  .back-to-dashboard-btn {
+    margin-bottom: 15px; /* Giảm khoảng cách dưới nút */
+    font-size: 0.95em;
+  }
+  .back-to-dashboard-btn i {
+    font-size: 0.95em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.8em;
+  }
+  .dashboard-container {
+    grid-template-columns: 1fr; /* Xếp thành 1 cột duy nhất trên màn hình rất nhỏ */
+    gap: 12px;
+  }
+  .dashboard-item i {
+    font-size: 2em;
+  }
+  .dashboard-item h2 {
+    font-size: 1.1em;
+  }
+  .dashboard-item p {
+    font-size: 0.8em;
+  }
+  /* Responsive cho Nút Quay lại (Nếu sử dụng trên trang con) */
+  .back-to-dashboard-btn {
+    font-size: 0.9em;
+  }
+  .back-to-dashboard-btn i {
+    font-size: 0.9em;
+  }
+}

@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đặt lịch hẹn - Barber Shop</title>
+    <link rel="stylesheet" href="../../css/css-client/style.css" />
+    <link rel="stylesheet" href="../../css/css-client/appointment-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script>
+      if (!localStorage.getItem("user_id")) {
+        alert("Vui lòng đăng nhập để sử dụng chức năng đặt lịch!");
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="about.html">Về chúng tôi</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+          </ul>
+        </nav>
+        <div
+          class="header-buttons desktop-buttons"
+          id="auth-menu-container"
+        ></div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <div class="container">
+        <h1>Đặt lịch hẹn</h1>
+        <div class="appointment-form-container">
+          <form id="appointment-form">
+            <div class="form-group">
+              <label>Họ và tên khách hàng:</label>
+              <input
+                type="text"
+                id="customer-name"
+                readonly
+                style="background-color: #f0f0f0; font-weight: bold"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="service"
+                >Chọn dịch vụ <span style="color: red">*</span>:</label
+              >
+              <select id="service" required>
+                <option value="">-- Đang tải danh sách dịch vụ... --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="branch"
+                >Chọn chi nhánh <span style="color: red">*</span>:</label
+              >
+              <select id="branch" required>
+                <option value="">-- Đang tải danh sách chi nhánh... --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <div style="display: flex; gap: 10px; align-items: flex-start;">
+                <div style="flex: 1;">
+                  <label for="barber">Chọn thợ cắt <span style="color: red">*</span>:</label>
+                  <div style="margin-bottom: 10px">
+                    <label
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        cursor: pointer;
+                        color: #ff7f00;
+                        font-weight: bold;
+                      "
+                    >
+                      <input
+                        type="checkbox"
+                        id="vip-only-checkbox"
+                        style="width: 18px; height: 18px; accent-color: #ff7f00"
+                      />
+                      Thợ VIP
+                    </label>
+                  </div>
+                  <select id="barber" required disabled>
+                    <option value="">-- Vui lòng chọn chi nhánh trước --</option>
+                  </select>
+                </div>
+                <div style="margin-top: 32px;">
+                  <button 
+                    type="button" 
+                    id="view-reviews-btn"
+                    style="background-color: #ff7f00; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; white-space: nowrap;"
+                    disabled
+                  >
+                    <i class="fas fa-star"></i> Xem đánh giá
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="appointment-date"
+                >Ngày hẹn <span style="color: red">*</span>:</label
+              >
+              <input type="date" id="appointment-date" required />
+            </div>
+
+            <div class="form-group">
+              <label for="appointment_time"
+                >Chọn khung giờ dịch vụ
+                <span style="color: red">*</span>:</label
+              >
+              <select id="appointment_time" required disabled>
+                <option value="">-- Vui lòng chọn thợ và ngày trước --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Ghi chú thêm:</label
+              ><textarea id="notes" rows="3"></textarea>
+            </div>
+
+            <div class="form-group total-amount-display">
+              <label>Tổng tiền dự kiến:</label>
+              <span
+                id="estimated-total"
+                style="font-weight: bold; color: #ff7f00; font-size: 1.2rem"
+                >0 VNĐ</span
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="btn primary-btn"
+              style="width: 100%; height: 50px; font-weight: bold"
+            >
+              XÁC NHẬN ĐẶT LỊCH
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      style="
+        background-color: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>&copy; Barber Shop. All rights reserved.</p>
+    </footer>
+
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-client/auth-menu.js"></script>
+
+    <script>
+      let allStylists = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const today = new Date().toISOString().split("T")[0];
+        document.getElementById("appointment-date").setAttribute("min", today);
+
+        const customerInput = document.getElementById("customer-name");
+        if (customerInput)
+          customerInput.value =
+            localStorage.getItem("full_name") || "Khách hàng";
+
+        const serviceSelect = document.getElementById("service");
+        const branchSelect = document.getElementById("branch");
+        const barberSelect = document.getElementById("barber");
+        const dateInput = document.getElementById("appointment-date");
+        const timeSelect = document.getElementById("appointment_time");
+        const vipCheckbox = document.getElementById("vip-only-checkbox");
+        const viewReviewsBtn = document.getElementById("view-reviews-btn");
+
+        // Load Dịch vụ
+        fetch("../../../backend/api/get_services_admin.php")
+          .then((res) => res.json())
+          .then((res) => {
+            serviceSelect.innerHTML =
+              '<option value="">-- Chọn dịch vụ --</option>';
+            if (res.status === "success") {
+              res.data.forEach((srv) => {
+                let priceFmt = new Intl.NumberFormat("vi-VN").format(srv.price);
+                serviceSelect.innerHTML += `<option value="${srv.service_id}" data-price="${srv.price}">${srv.service_name} (${priceFmt} VNĐ)</option>`;
+              });
+            }
+          });
+
+        // Load Chi nhánh
+        fetch("../../../backend/api/get_branches_admin.php")
+          .then((res) => res.json())
+          .then((res) => {
+            branchSelect.innerHTML =
+              '<option value="">-- Chọn chi nhánh --</option>';
+            if (res.status === "success") {
+              res.data.forEach((br) => {
+                branchSelect.innerHTML += `<option value="${br.branch_id}">${br.branch_name}</option>`;
+              });
+            }
+          });
+
+        if (serviceSelect) {
+          serviceSelect.addEventListener("change", function () {
+            const price =
+              this.options[this.selectedIndex]?.getAttribute("data-price") || 0;
+            document.getElementById("estimated-total").innerText =
+              new Intl.NumberFormat("vi-VN").format(price) + " VNĐ";
+          });
+        }
+
+        // Tải Thợ theo Chi nhánh
+        if (branchSelect) {
+          branchSelect.addEventListener("change", function () {
+            barberSelect.innerHTML =
+              '<option value="">-- Đang tải thợ... --</option>';
+            barberSelect.disabled = true;
+            viewReviewsBtn.disabled = true;
+            if (this.value) {
+              fetch(
+                `../../../backend/api/get_stylists.php?branch_id=${this.value}`,
+              )
+                .then((res) => res.json())
+                .then((res) => {
+                  barberSelect.innerHTML =
+                    '<option value="">-- Chọn Thợ --</option>';
+                  if (res.status === "success" && res.data.length > 0) {
+                    res.data.forEach(
+                      (s) =>
+                        (barberSelect.innerHTML += `<option value="${s.stylist_id}">Thợ ${s.full_name}</option>`),
+                    );
+                    barberSelect.disabled = false;
+                  } else {
+                    barberSelect.innerHTML =
+                      '<option value="">Chi nhánh này chưa có thợ</option>';
+                  }
+                })
+                .catch(
+                  () =>
+                    (barberSelect.innerHTML =
+                      '<option value="">-- Lỗi tải dữ liệu --</option>'),
+                );
+            }
+          });
+        }
+
+        // Tải Giờ trống
+        const defaultHours = [
+          "08:00",
+          "08:30",
+          "09:00",
+          "09:30",
+          "10:00",
+          "10:30",
+          "11:00",
+          "13:00",
+          "13:30",
+          "14:00",
+          "14:30",
+          "15:00",
+          "15:30",
+          "16:00",
+          "16:30",
+          "17:00",
+          "17:30",
+          "18:00",
+          "18:30",
+          "19:00",
+          "19:30",
+        ];
+
+        const checkAvailableSlots = () => {
+          if (dateInput.value && barberSelect.value) {
+            timeSelect.innerHTML =
+              '<option value="">-- Đang kiểm tra giờ... --</option>';
+            timeSelect.disabled = false;
+            fetch(
+              `../../../backend/api/check_slots.php?date=${dateInput.value}&stylist_id=${barberSelect.value}`,
+            )
+              .then((res) => res.json())
+              .then((res) => {
+                timeSelect.innerHTML =
+                  '<option value="">-- Chọn giờ --</option>';
+                let takenSlots =
+                  res.status === "success" ? res.taken_slots : [];
+                defaultHours.forEach((hour) => {
+                  let isTaken = takenSlots.includes(hour);
+                  timeSelect.innerHTML += `<option value="${hour}:00" ${isTaken ? 'disabled style="color:red;"' : ""}>${hour} ${isTaken ? "(Hết chỗ)" : ""}</option>`;
+                });
+              })
+              .catch(
+                () =>
+                  (timeSelect.innerHTML =
+                    '<option value="">-- Lỗi tải dữ liệu --</option>'),
+              );
+          } else {
+            timeSelect.disabled = true;
+            timeSelect.innerHTML =
+              '<option value="">-- Vui lòng chọn thợ và ngày trước --</option>';
+          }
+        };
+
+        if (barberSelect)
+          barberSelect.addEventListener("change", checkAvailableSlots);
+        if (dateInput)
+          dateInput.addEventListener("change", checkAvailableSlots);
+
+        // Submit Đặt Lịch
+        document
+          .getElementById("appointment-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            const data = {
+              customer_id: localStorage.getItem("user_id"),
+              branch_id: branchSelect.value,
+              service_id: serviceSelect.value,
+              stylist_id: barberSelect.value,
+              appointment_date: dateInput.value,
+              appointment_time: timeSelect.value,
+              notes: document.getElementById("notes").value,
+            };
+
+            fetch("../../../backend/booking_process.php", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(data),
+            })
+              .then((res) => res.json())
+              .then((result) => {
+                alert(result.message);
+                if (result.status === "success")
+                  window.location.href = "history.html";
+              })
+              .catch(() => alert("Đã xảy ra lỗi kết nối Server!"));
+          });
+
+        // === XỬ LÝ NÚT XEM ĐÁNH GIÁ ===
+        if (viewReviewsBtn) {
+          viewReviewsBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            const stylistId = barberSelect.value;
+            if (!stylistId) {
+              alert("Vui lòng chọn thợ cắt trước!");
+              return;
+            }
+            window.open(`stylist-reviews.html?stylist_id=${stylistId}`, '_blank');
+          });
+          
+          barberSelect.addEventListener("change", function() {
+            viewReviewsBtn.disabled = !this.value;
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

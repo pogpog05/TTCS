@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý Chi nhánh - Barber Shop Admin</title>
+    <link rel="stylesheet" href="../../css/css-admin/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../css/css-admin/branch-management-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../css/css-admin/admin-dashboard-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Trang chủ</a></li>
+            <li><a href="statistics.html">Thống kê</a></li>
+            <li><a href="customer-management.html">Khách hàng</a></li>
+            <li><a href="salon-appointments.html">Lịch hẹn</a></li>
+            <li><a href="branch-management.html">Chi nhánh</a></li>
+            <li><a href="service-management.html">Dịch vụ</a></li>
+            <li><a href="stylist-management.html">Stylist</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <div class="container">
+        <h1>Quản lý Chi nhánh</h1>
+
+        <div class="branch-management-container">
+          <div class="add-branch-block">
+            <h2 id="form-title">Thêm Chi nhánh Mới</h2>
+            <button class="btn primary-btn" id="show-add-branch-form-btn">
+              <i class="fas fa-plus-square"></i> Thêm Chi nhánh
+            </button>
+
+            <div
+              id="add-branch-form-container"
+              class="add-branch-form-container"
+            >
+              <form id="add-branch-form">
+                <input type="hidden" id="branch-id" name="branch_id" value="" />
+                <div class="form-group">
+                  <label>Tên Chi nhánh:</label>
+                  <input
+                    type="text"
+                    id="branch-name"
+                    name="branch_name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Địa chỉ:</label>
+                  <input
+                    type="text"
+                    id="branch-address"
+                    name="branch_address"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Số điện thoại:</label>
+                  <input type="tel" id="branch-phone" name="branch_phone" />
+                </div>
+                <div class="form-group">
+                  <label>Email:</label>
+                  <input type="email" id="branch-email" name="branch_email" />
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn primary-btn">
+                  <i class="fas fa-save"></i> Lưu Chi nhánh
+                </button>
+                <button
+                  type="button"
+                  class="btn secondary-btn"
+                  id="cancel-add-branch-form-btn"
+                >
+                  <i class="fas fa-times"></i> Hủy
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="branch-list">
+            <h2>Danh sách Chi nhánh</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã CN</th>
+                  <th>Tên Chi nhánh</th>
+                  <th>Địa chỉ</th>
+                  <th>Số điện thoại</th>
+                  <th>Email</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="branch-table-body">
+                <tr>
+                  <td colspan="6" style="text-align: center">
+                    Đang tải dữ liệu...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-admin/admin-auth.js"></script>
+    <script src="../../js/js-admin/branch-management-script.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        loadBranches();
+
+        // Xử lý Thêm / Sửa bằng API
+        document
+          .getElementById("add-branch-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            const id = document.getElementById("branch-id").value;
+            const endpoint = id
+              ? "../../../backend/update_branch.php"
+              : "../../../backend/add_branch.php";
+
+            fetch(endpoint, {
+              method: "POST",
+              body: new FormData(this),
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                alert(res.message);
+                if (res.status === "success") {
+                  this.reset();
+                  document.getElementById("branch-id").value = "";
+                  loadBranches(); // Tải lại bảng
+                }
+              });
+          });
+      });
+
+      // Lấy dữ liệu danh sách bằng API (Đã sửa lại link API chuẩn xác)
+      function loadBranches() {
+        fetch("../../../backend/api/get_branches_admin.php")
+          .then((res) => res.json())
+          .then((res) => {
+            const tbody = document.getElementById("branch-table-body");
+            tbody.innerHTML = "";
+            if (res.status === "success" && res.data.length > 0) {
+              res.data.forEach((b) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>CN${String(b.branch_id).padStart(3, "0")}</td>
+                        <td>${b.branch_name}</td>
+                        <td>${b.address}</td>
+                        <td>${b.phone}</td>
+                        <td>${b.email || "Chưa cập nhật"}</td>
+                        <td>
+                            <button class="btn edit-btn" onclick="editBranch(${b.branch_id}, '${b.branch_name}', '${b.address}', '${b.phone}', '${b.email || ""}')" style="background-color: #FFC107; color: #000;"><i class="fas fa-edit"></i> Sửa</button>
+                            <button class="btn delete-btn" onclick="deleteBranch(${b.branch_id})"><i class="fas fa-trash"></i> Xóa</button>
+                        </td>
+                    </tr>`;
+              });
+            } else {
+              tbody.innerHTML =
+                "<tr><td colspan='6' style='text-align:center;'>Chưa có chi nhánh nào.</td></tr>";
+            }
+          })
+          .catch((err) => {
+            document.getElementById("branch-table-body").innerHTML =
+              "<tr><td colspan='6' style='text-align:center; color:red;'>Lỗi tải dữ liệu</td></tr>";
+          });
+      }
+
+      function editBranch(id, name, address, phone, email) {
+        document.getElementById("branch-id").value = id;
+        document.getElementById("branch-name").value = name;
+        document.getElementById("branch-address").value = address;
+        document.getElementById("branch-phone").value = phone;
+        document.getElementById("branch-email").value = email;
+
+        document.getElementById("form-title").innerText = "Cập nhật Chi nhánh";
+        document.getElementById("submit-btn").innerHTML =
+          '<i class="fas fa-check"></i> Cập nhật ngay';
+        document.getElementById("add-branch-form-container").style.display =
+          "block";
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function deleteBranch(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa chi nhánh này không?")) {
+          fetch(`../../../backend/delete_branch.php?id=${id}`)
+            .then((res) => res.json())
+            .then((res) => {
+              alert(res.message);
+              if (res.status === "success") loadBranches();
+            });
+        }
+      }
+    </script>
+  </body>
+</html>

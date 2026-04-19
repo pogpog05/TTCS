@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý Lịch hẹn - Barber Shop Admin</title>
+    <link rel="stylesheet" href="../../css/css-admin/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../css/css-admin/salon-appointments-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Trang chủ</a></li>
+            <li><a href="statistics.html">Thống kê</a></li>
+            <li><a href="customer-management.html">Khách hàng</a></li>
+            <li><a href="salon-appointments.html">Lịch hẹn</a></li>
+            <li><a href="branch-management.html">Chi nhánh</a></li>
+            <li><a href="service-management.html">Dịch vụ</a></li>
+            <li><a href="stylist-management.html">Stylist</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <div class="container">
+        <h1>Quản lý Lịch hẹn Salon</h1>
+        <div class="appointment-management-container">
+          <form id="filter-form" class="filter-bar">
+            <div>
+              <label>Ngày:</label>
+              <input type="date" id="filter-date" />
+            </div>
+            <div>
+              <label>Trạng thái:</label>
+              <select id="filter-status">
+                <option value="">Tất cả trạng thái</option>
+                <option value="pending">Chờ xác nhận</option>
+                <option value="confirmed">Đã xác nhận</option>
+                <option value="completed">Đã hoàn thành</option>
+                <option value="cancelled">Đã hủy</option>
+              </select>
+            </div>
+            <button type="submit" class="btn primary-btn">
+              <i class="fas fa-filter"></i> Lọc dữ liệu
+            </button>
+            <button
+              type="button"
+              class="btn secondary-btn"
+              onclick="resetFilters()"
+            >
+              Hủy lọc
+            </button>
+          </form>
+
+          <div class="appointment-list" id="appointment-list-container">
+            <div style="text-align: center; padding: 20px">
+              Đang tải dữ liệu...
+            </div>
+          </div>
+
+          <div id="pagination-container"></div>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      style="
+        background-color: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>Barber Shop. All rights reserved.</p>
+    </footer>
+
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-admin/admin-auth.js"></script>
+
+    <script>
+      // Lưu trữ trạng thái lọc toàn cục để dùng khi chuyển trang
+      let currentDate = "";
+      let currentStatus = "";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadAppointments(1); // Mặc định load trang đầu tiên
+
+        // Xử lý khi nhấn nút Lọc
+        document
+          .getElementById("filter-form")
+          .addEventListener("submit", (e) => {
+            e.preventDefault();
+            currentDate = document.getElementById("filter-date").value;
+            currentStatus = document.getElementById("filter-status").value;
+            loadAppointments(1); // Lọc mới luôn quay về trang 1
+          });
+      });
+
+      // Hàm gọi API lấy danh sách lịch hẹn
+      function loadAppointments(page = 1) {
+        const container = document.getElementById("appointment-list-container");
+        container.innerHTML =
+          "<div style='text-align: center'>Đang tải dữ liệu...</div>";
+
+        const url = `../../../backend/api/get_appointments_admin.php?page=${page}&date=${currentDate}&status=${currentStatus}`;
+
+        fetch(url)
+          .then((res) => res.json())
+          .then((res) => {
+            container.innerHTML = "";
+            if (res.status === "success" && res.data.length > 0) {
+              res.data.forEach((app) => {
+                // Định dạng hiển thị trạng thái
+                let stText = "Chờ duyệt";
+                if (app.status === "confirmed") stText = "Đã xác nhận";
+                if (app.status === "completed") stText = "Đã hoàn thành";
+                if (app.status === "cancelled") stText = "Đã hủy";
+
+                // Định dạng ngày giờ
+                let dateParts = app.appointment_date.split("-");
+                let fDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                let fTime = app.appointment_time.substring(0, 5);
+
+                // Tạo các nút hành động dựa trên trạng thái (Khớp class CSS btn-...)
+                let actions = "";
+                if (app.status === "pending") {
+                  actions = `
+                    <button class="btn btn-confirm" onclick="updateStatus(${app.appointment_id}, 'confirmed')">
+                      <i class="fas fa-check"></i> Xác nhận
+                    </button>
+                    <button class="btn btn-reject" onclick="updateStatus(${app.appointment_id}, 'cancelled')">
+                      <i class="fas fa-times"></i> Từ chối
+                    </button>`;
+                } else if (app.status === "confirmed") {
+                  actions = `
+                    <button class="btn btn-complete" onclick="updateStatus(${app.appointment_id}, 'completed')">
+                      <i class="fas fa-flag-checkered"></i> Hoàn thành
+                    </button>`;
+                }
+
+                // Render khối HTML cho từng lịch hẹn
+                container.innerHTML += `
+                  <div class="appointment-item ${app.status}">
+                    <div class="appointment-details">
+                      <h3>Khách hàng: ${app.cust_name}</h3>
+                      <div class="appointment-grid">
+                        <p><strong>SĐT:</strong> ${app.cust_phone}</p>
+                        <p><strong>Chi nhánh:</strong> ${app.branch_name}</p>
+                        <p><strong>Ngày hẹn:</strong> ${fDate}</p>
+                        <p><strong>Giờ hẹn:</strong> ${fTime}</p>
+                        <p><strong>Dịch vụ:</strong> ${app.service_name}</p>
+                        <p><strong>Thợ cắt:</strong> ${app.stylist_name || "<em>Chưa chọn</em>"}</p>
+                      </div>
+                      <p class="appointment-total">Tổng tiền: ${new Intl.NumberFormat("vi-VN").format(app.total_price)} VNĐ</p>
+                      <p><strong>Ghi chú:</strong> ${app.notes || "Không có"}</p>
+                      <div class="appointment-status">
+                        <span>Trạng thái: ${stText}</span>
+                      </div>
+                    </div>
+                    <div class="appointment-actions">
+                      ${actions}
+                    </div>
+                  </div>`;
+              });
+              renderPagination(res.total_pages, res.current_page);
+            } else {
+              container.innerHTML =
+                "<div class='no-appointments'>Không tìm thấy lịch hẹn nào phù hợp yêu cầu.</div>";
+              renderPagination(0, 1);
+            }
+          })
+          .catch((err) => {
+            console.error("Lỗi:", err);
+            container.innerHTML =
+              "<div style='text-align: center; color: red;'>Lỗi kết nối dữ liệu!</div>";
+          });
+      }
+
+      // Hàm vẽ nút phân trang [1] [2] [3]
+      function renderPagination(totalPages, currentPage) {
+        const container = document.getElementById("pagination-container");
+        container.innerHTML = "";
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.innerText = i;
+          if (i === currentPage) btn.className = "active";
+          btn.onclick = () => {
+            loadAppointments(i);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          };
+          container.appendChild(btn);
+        }
+      }
+
+      // Hàm cập nhật trạng thái (Xác nhận/Hủy/Hoàn thành)
+      function updateStatus(id, status) {
+        if (
+          confirm("Bạn có chắc chắn muốn cập nhật trạng thái lịch hẹn này?")
+        ) {
+          fetch(
+            `../../../backend/update_appointment_status.php?id=${id}&status=${status}`,
+          )
+            .then((res) => res.json())
+            .then((res) => {
+              alert(res.message);
+              if (res.status === "success") {
+                loadAppointments(1); // Tải lại danh sách trang 1 sau khi cập nhật
+              }
+            });
+        }
+      }
+
+      // Hàm Hủy lọc và quay về mặc định
+      function resetFilters() {
+        document.getElementById("filter-form").reset();
+        currentDate = "";
+        currentStatus = "";
+        loadAppointments(1);
+      }
+    </script>
+  </body>
+</html>

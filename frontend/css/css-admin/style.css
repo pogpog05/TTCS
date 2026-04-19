@@ -1,0 +1,454 @@
+body {
+  margin: 0;
+  font-family: "Arial", sans-serif; /* Chọn font chữ phù hợp */
+  line-height: 1.6;
+  color: #333; /* Màu chữ mặc định */
+  background-color: #fff; /* Màu nền mặc định trắng */
+
+  background-size: cover; /* Đảm bảo ảnh phủ kín */
+  background-position: center; /* Căn giữa ảnh */
+  background-repeat: no-repeat; /* Không lặp lại ảnh */
+  background-attachment: fixed; /* Giữ ảnh nền cố định khi cuộn (tùy chọn) */
+
+  /* --- Sticky Footer Styles --- */
+  display: flex; /* Sử dụng Flexbox */
+  flex-direction: column; /* Xếp các phần tử con theo cột */
+  min-height: 100vh; /* Chiều cao tối thiểu bằng chiều cao viewport */
+  /* -------------------------- */
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box; /* Giúp dễ tính toán kích thước với padding/border */
+}
+
+img {
+  display: block;
+  max-width: 100%; /* Đảm bảo hình ảnh không tràn ra khỏi container */
+  height: auto; /* Giữ tỷ lệ khung hình */
+}
+
+a {
+  text-decoration: none;
+  color: inherit; /* Kế thừa màu chữ từ cha */
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* --- Container Utility --- */
+.container {
+  width: 90%; /* Chiều rộng mặc định cho desktop */
+  max-width: 1200px; /* Chiều rộng tối đa */
+  margin: 0 auto; /* Căn giữa container */
+}
+
+.header-container {
+  display: flex; /* Sử dụng flexbox cho bố cục header */
+  justify-content: space-between; /* Căn các mục ra hai đầu */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  padding: 10px 0px; /* Padding trên dưới */
+}
+
+/* --- Header Styling (Áp dụng cho các trang có header) --- */
+.site-header {
+  background-color: rgba(0, 0, 0, 0.7); /* Nền header có độ trong suốt */
+  position: fixed; /* Giữ header cố định khi cuộn */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100; /* Đảm bảo header nằm trên các nội dung khác */
+  color: #fff; /* Màu chữ cho header */
+}
+
+.logo img {
+  height: 50px; /* Chiều cao logo */
+  width: auto;
+}
+
+/* Style cho menu điều hướng Desktop */
+.desktop-nav ul {
+  display: flex; /* Dùng flexbox cho menu ngang */
+}
+
+.desktop-nav ul li {
+  margin-left: 25px; /* Khoảng cách giữa các mục menu */
+}
+
+.desktop-nav ul li a {
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 0;
+  display: block;
+  transition: color 0.3s ease; /* Hiệu ứng hover */
+}
+
+.desktop-nav ul li a:hover {
+  color: #ff7f00; /* Màu khi hover (ví dụ màu cam) */
+}
+
+/* Style cho các nút ở header Desktop */
+.header-buttons .btn {
+  margin-left: 15px; /* Khoảng cách giữa các nút */
+  padding: 8px 18px; /* Padding nút */
+  font-size: 0.95em;
+}
+
+/* --- Button Styling (Chung cho toàn trang web) --- */
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.primary-btn {
+  background-color: #ad9c8c; /* Màu nền nút chính  */
+  color: #fff;
+  border: 2px solid #dbe6dd;
+}
+
+.primary-btn:hover {
+  color: #1a1a1a;
+  background-color: #1bdd1b; /* Màu nền khi hover */
+  border-color: #e6e0db;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+.secondary-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+
+/* --- Style cho Khối Icon Người dùng */
+.user-cart-icons {
+  display: flex; /* Dùng flexbox để sắp xếp icon người dùng \*/
+  align-items: center; /* Căn giữa theo chiều dọc */
+  gap: 20px; /* Khoảng cách giữa hai icon chính */
+  margin-left: 20px; /* Khoảng cách với menu hoặc logo */
+}
+
+.user-account,
+.cart-icon {
+  position: relative; /* Cần cho dropdown hoặc badge */
+}
+
+.user-account .user-icon-link,
+.cart-icon a {
+  color: #fff; /* Màu icon */
+  font-size: 1.5em; /* Kích thước icon */
+  display: flex; /* Dùng flexbox để căn icon và text */
+  align-items: center;
+  gap: 5px; /* Khoảng cách giữa icon và text */
+  transition: color 0.3s ease;
+}
+
+.user-account .user-icon-link:hover,
+.cart-icon a:hover {
+  color: #ff7f00; /* Màu khi hover */
+}
+
+.user-account .user-icon-link i,
+.cart-icon a i {
+  font-size: 1em; /* Kích thước icon thực tế */
+}
+
+/* Style cho text "Đăng nhập / Đăng ký" hoặc "Tài khoản của tôi" */
+.user-account .user-icon-link span {
+  font-size: 0.8em; /* Kích thước text */
+  font-weight: bold;
+}
+
+/* Style cho mũi tên dropdown (nếu sử dụng) */
+.user-account .user-icon-link i.fa-chevron-down {
+  font-size: 0.6em;
+}
+
+/* Style cho dropdown Tài khoản của tôi */
+.user-account .account-dropdown {
+  position: absolute;
+  top: 100%; /* Đặt ngay dưới icon */
+  right: 0; /* Căn phải theo user-account */
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  padding: 10px 0;
+  z-index: 101; /* Đảm bảo nằm trên header */
+  min-width: 180px; /* Chiều rộng tối thiểu dropdown */
+  white-space: nowrap; /* Ngăn không cho text trong dropdown bị xuống dòng */
+  /* Mặc định ẩn bằng display: none; và được JS quản lý */
+  display: none;
+  opacity: 0; /* Thêm opacity cho hiệu ứng fade */
+  visibility: hidden; /* Thêm visibility cho hiệu ứng */
+  transition:
+    opacity 0.3s ease-in-out,
+    visibility 0.3s ease-in-out; /* Hiệu ứng chuyển đổi */
+}
+
+/* Style khi dropdown active (class được thêm bằng JS) */
+.user-account.active .account-dropdown {
+  display: block; /* HIỂN THỊ DROPDOWN KHI CÓ CLASS ACTIVE */
+  opacity: 1;
+  visibility: visible;
+}
+
+.user-account .account-dropdown a {
+  display: block; /* Mỗi mục chiếm 1 dòng */
+  padding: 8px 15px;
+  color: #333;
+  font-size: 0.9em;
+  transition: background-color 0.2s ease;
+}
+
+.user-account .account-dropdown a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Mặc định ẩn icon hamburger và menu mobile */
+.hamburger-icon,
+.mobile-menu-overlay {
+  display: none;
+}
+
+/* Class utility để ẩn chỉ trên desktop */
+.desktop-only {
+  display: flex; /* Mặc định hiển thị flex trên desktop */
+}
+
+/* Class utility để ẩn chỉ trên mobile */
+.mobile-only {
+  display: none; /* Mặc định ẩn trên desktop */
+}
+
+/* Class utility để ẩn khi đã đăng nhập */
+.logged-in-only {
+  display: none !important; /* Mặc định ẩn */
+}
+
+/* Class utility để hiển thị khi đã đăng nhập */
+.is-logged-in .logged-in-only {
+  display: flex !important; /* Hoặc block/inline-block tùy phần tử */
+}
+
+/* Class utility để ẩn khi đã đăng nhập */
+.is-logged-in .logged-out-only {
+  display: none !important;
+}
+
+/* Class utility để ẩn cho khách hàng */
+.admin-only {
+  display: none !important; /* Mặc định ẩn */
+}
+
+/* Class utility để hiển thị cho admin */
+.user-role-admin .admin-only {
+  display: block !important; /* Hoặc flex/grid tùy phần tử */
+}
+
+/* Class utility để ẩn cho khách hàng */
+.user-role-admin .customer-only {
+  display: none !important;
+}
+
+.site-footer {
+  background-color: #1a1a1a;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: auto; /* Đẩy footer xuống cuối trang */
+}
+
+/* Media Query cho màn hình lớn hơn breakpoint mobile */
+@media screen and (min-width: 769px) {
+  /* Đảm bảo menu mobile ẩn trên màn hình lớn */
+  .mobile-menu-overlay {
+    display: none !important;
+  }
+  /* Đảm bảo icon hamburger ẩn trên màn hình lớn */
+  .hamburger-icon {
+    display: none !important;
+  }
+  /* Đảm bảo các mục mobile-only ẩn trên desktop */
+  .mobile-only {
+    display: none !important;
+  }
+
+  /* Trên desktop, logged-in-only hiển thị khi body có class is-logged-in */
+  .is-logged-in .logged-in-only {
+    display: flex !important; /* Hoặc flex/grid tùy bố cục */
+  }
+  /* Trên desktop, logged-out-only ẩn khi body có class is-logged-in */
+  .is-logged-in .logged-out-only {
+    display: none !important;
+  }
+
+  /* Trên desktop, admin-only hiển thị khi body có class user-role-admin */
+  .user-role-admin .admin-only {
+    display: block !important; /* Hoặc flex/grid tùy bố cục */
+  }
+  /* Trên desktop, customer-only ẩn khi body có class user-role-admin */
+  .user-role-admin .customer-only {
+    display: none !important;
+  }
+}
+
+/* Breakpoint chính cho Mobile */
+@media screen and (max-width: 768px) {
+  .header-container {
+    flex-direction: row; /* Giữ logo và hamburger icon ngang hàng */
+    justify-content: space-between; /* Logo bên trái, icon bên phải */
+    align-items: center;
+    padding: 10px 20px; /* Thêm padding ngang */
+  }
+
+  /* Ẩn menu và nút của desktop */
+  .desktop-nav,
+  .desktop-buttons {
+    display: none;
+  }
+
+  /* Ẩn các mục desktop-only trên mobile */
+  .desktop-only {
+    display: none !important;
+  }
+
+  /* Hiển thị icon hamburger */
+  .hamburger-icon {
+    display: block; /* Hoặc inline-block tùy bố cục */
+    font-size: 2em; /* Kích thước icon */
+    color: #fff;
+    cursor: pointer;
+    z-index: 110; /* Đảm bảo icon nằm trên header và overlay */
+  }
+
+  /* Style cho menu mobile overlay */
+  .mobile-menu-overlay {
+    display: block; /* Quan trọng: chuyển từ none sang block để hiệu ứng transform hoạt động */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95); /* Nền đen gần như đặc */
+    z-index: 105; /* Đặt trên nội dung, dưới hamburger icon */
+    transform: translateX(-100%); /* Ẩn menu bằng cách đẩy sang trái */
+    transition: transform 0.4s ease-in-out; /* Hiệu ứng trượt */
+    overflow-y: auto; /* Thêm cuộn nếu nội dung menu dài */
+    -webkit-overflow-scrolling: touch; /* Cải thiện cuộn trên iOS */
+  }
+
+  /* Khi menu mobile active (class được thêm bởi JS) */
+  .mobile-menu-overlay.active {
+    transform: translateX(0); /* Hiển thị menu */
+  }
+
+  .mobile-menu-content {
+    padding: 30px 20px; /* Padding bên trong menu */
+    text-align: left; /* Căn trái nội dung menu */
+  }
+
+  /* Style cho nút đóng */
+  .close-icon {
+    font-size: 2em;
+    color: #fff;
+    cursor: pointer;
+    text-align: right; /* Căn nút đóng sang phải */
+    margin-bottom: 20px;
+  }
+
+  /* Style cho menu điều hướng trong mobile */
+  .mobile-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-nav ul li {
+    margin: 15px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Đường kẻ phân cách */
+    padding-bottom: 15px;
+  }
+
+  .mobile-nav ul li:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.3em;
+    display: block; /* Toàn bộ khu vực li có thể click */
+    padding: 5px 0;
+    transition: color 0.3s ease;
+  }
+
+  .mobile-nav ul li a:hover {
+    color: #ff7f00; /* Màu hover */
+  }
+
+  /* Style cho các nút trong menu mobile */
+  .mobile-header-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column; /* Xếp nút theo cột */
+    gap: 15px; /* Khoảng cách giữa các nút */
+  }
+
+  .mobile-header-buttons .btn {
+    display: block; /* Đảm bảo mỗi nút chiếm 1 dòng */
+    width: 100%; /* Chiều rộng nút */
+    max-width: 300px; /* Chiều rộng tối đa */
+    margin: 0 auto; /* Căn giữa nút */
+  }
+
+  /* Hiển thị các mục mobile-only trên mobile */
+  .mobile-only {
+    display: block; /* Hoặc flex/grid tùy bố cục */
+  }
+
+  /* Trên mobile, logged-in-only hiển thị khi body có class is-logged-in */
+  .is-logged-in .logged-in-only {
+    display: block !important; /* Hoặc flex/grid tùy bố cục */
+  }
+  /* Trên mobile, logged-out-only ẩn khi body có class is-logged-in */
+  .is-logged-in .logged-out-only {
+    display: none !important;
+  }
+
+  /* Trên mobile, admin-only hiển thị khi body có class user-role-admin */
+  .user-role-admin .admin-only {
+    display: block !important; /* Hoặc flex/grid tùy bố cục */
+  }
+  /* Trên mobile, customer-only ẩn khi body có class user-role-admin */
+  .user-role-admin .customer-only {
+    display: none !important;
+  }
+}
+main {
+  flex-grow: 1;
+}
+#salon-list-results {
+  display: block;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 10;
+}
+.salon-item {
+  padding: 10px;
+  cursor: pointer;
+}

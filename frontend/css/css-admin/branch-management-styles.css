@@ -1,0 +1,284 @@
+/* --- Style cho trang Quản lý Chi nhánh --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 100px; /* Khoảng trống để tránh header trên desktop (Điều chỉnh nếu cần) */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+.branch-list {
+  margin: 20px auto;
+  max-width: fit-content;
+}
+
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề chính */
+  font-size: 2.5em;
+}
+
+/* Container chính cho nội dung quản lý chi nhánh */
+.branch-management-container {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* --- Thêm style để căn giữa container này --- */
+  max-width: 1000px; /* Đặt chiều rộng tối đa cho bảng */
+  margin-left: auto; /* Căn giữa */
+  margin-right: auto; /* Căn giữa */
+  /* ----------------------------------------- */
+}
+
+/* Style cho khối thêm chi nhánh mới */
+.add-branch-block {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.add-branch-block h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+/* Style cho CONTAINER BỌC FORM (Ẩn ban đầu) */
+.add-branch-form-container {
+  display: none; /* Ẩn form ban đầu */
+  margin-top: 20px; /* Khoảng cách trên form khi nó hiển thị */
+  /* Tùy chọn: Thêm hiệu ứng fade-in */
+  /* opacity: 0; */
+  /* transition: opacity 0.4s ease-in-out; */
+  max-width: 600px; /* Giới hạn chiều rộng của form khi hiển thị */
+  margin-left: auto;
+  margin-right: auto; /* Căn giữa form */
+}
+
+/* Class để hiển thị form (sẽ được thêm bằng JS) */
+.add-branch-form-container.visible {
+  display: block; /* Hiển thị form dưới dạng block */
+  /* opacity: 1; */
+}
+
+/* Style cho form thêm chi nhánh */
+.add-branch-block form {
+  display: flex; /* Sử dụng flexbox */
+  flex-direction: column; /* Xếp các mục theo cột (chiều dọc) */
+  gap: 15px; /* Khoảng cách giữa các mục form */
+  /* Bỏ align-items: flex-end; vì các mục đã chiếm toàn bộ chiều rộng */
+  /* align-items: flex-end; */
+  max-width: none; /* Form chiếm toàn bộ chiều rộng của container bọc form */
+  margin: 0;
+}
+
+/* Style cho các nhóm form (label + input/select) trong form thêm chi nhánh */
+.add-branch-block .form-group {
+  flex-grow: 0; /* Không cho phép giãn nở */
+  flex-basis: auto; /* Chiều rộng cơ sở tự động */
+  margin-bottom: 0; /* Loại bỏ margin-bottom mặc định của form-group */
+  width: 100%; /* Mỗi nhóm form chiếm toàn bộ chiều rộng của form */
+}
+
+/* Style cho các ô input/select/textarea trong form thêm chi nhánh */
+.add-branch-block input[type="text"],
+.add-branch-block input[type="tel"],
+.add-branch-block input[type="email"],
+.add-branch-block textarea {
+  /* Thêm các loại input khác nếu có */
+  width: 100%; /* Ô input chiếm toàn bộ chiều rộng của form-group chứa nó */
+  padding: 8px 10px; /* Padding cho input */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Style cho label trong form thêm chi nhánh */
+.add-branch-block .form-group label {
+  display: block; /* Nhãn trên trường nhập */
+  margin-bottom: 5px; /* Khoảng cách nhỏ hơn giữa label và input */
+  font-weight: bold;
+  color: #555;
+  font-size: 0.9em;
+}
+
+/* Style cho nút submit và nút hủy trong form thêm chi nhánh */
+.add-branch-block form .btn {
+  padding: 8px 15px; /* Padding nút */
+  font-size: 1em;
+  margin-top: 10px; /* Khoảng cách trên nút */
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+  /* Các style màu sắc, border, transition đã có trong style.css */
+}
+
+/* Style cho nút Hủy (để nó nằm cạnh nút Lưu) */
+.add-branch-block form #cancel-add-branch-form-btn {
+  margin-right: 0; /* Bỏ margin-right cho nút cuối cùng */
+}
+
+/* Style cho bảng danh sách chi nhánh */
+.branch-list {
+  margin-top: 30px; /* Khoảng cách trên bảng danh sách */
+}
+
+.branch-list h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+.branch-list table {
+  width: 100%; /* Bảng chiếm toàn bộ chiều rộng container */
+  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các border */
+  overflow-x: auto; /* Thêm cuộn ngang cho bảng trên màn hình nhỏ */
+  display: block; /* Cần display block cho overflow-x hoạt động */
+}
+
+.branch-list thead {
+  display: table-header-group; /* Đảm bảo thead hiển thị đúng */
+}
+
+.branch-list th,
+.branch-list td {
+  padding: 12px;
+  text-align: left; /* Căn trái nội dung trong ô */
+  border-bottom: 1px solid #ddd; /* Đường kẻ dưới mỗi hàng */
+}
+
+.branch-list th {
+  background-color: #f2f2f2; /* Nền xám cho header bảng */
+  font-weight: bold;
+  color: #333;
+}
+
+.branch-list tbody tr:hover {
+  background-color: #f9f9f9; /* Nền nhạt khi di chuột qua hàng */
+}
+
+/* Style cho cột hành động */
+.branch-list td:last-child {
+  text-align: center; /* Căn giữa các nút hành động */
+  white-space: nowrap; /* Ngăn các nút xuống dòng */
+}
+
+.branch-list td .btn {
+  padding: 5px 10px;
+  font-size: 0.9em;
+  margin: 0 5px; /* Khoảng cách giữa các nút */
+}
+
+/* Style cho nút sửa (sử dụng lại màu từ style.css) */
+.branch-list .edit-btn {
+  background-color: #ffc107; /* Màu vàng */
+  color: #212529;
+  border: none;
+}
+.branch-list .edit-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Style cho nút xóa (sử dụng lại màu từ style.css) */
+.branch-list .delete-btn {
+  background-color: #dc3545; /* Màu đỏ */
+  color: #fff;
+  border: none;
+}
+.branch-list .delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* --- Responsive adjustments for Branch Management page --- */
+
+@media screen and (max-width: 1024px) {
+  .branch-management-container {
+    max-width: 95%; /* Cho phép container rộng hơn trên tablet */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px; /* Điều chỉnh padding top nếu header mobile nhỏ hơn */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+  .branch-management-container {
+    padding: 15px;
+    max-width: 95%; /* Đảm bảo chiếm chiều rộng trên mobile */
+  }
+  .add-branch-block h2,
+  .branch-list h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  /* Điều chỉnh form thêm chi nhánh trên mobile */
+  .add-branch-form-container {
+    max-width: none; /* Bỏ giới hạn chiều rộng trên mobile */
+    margin: 0; /* Bỏ căn giữa trên mobile */
+  }
+  .add-branch-block form {
+    gap: 10px; /* Giảm khoảng cách */
+  }
+  .add-branch-block .form-group {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+  .add-branch-block form .btn {
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+    margin-top: 10px; /* Điều chỉnh margin-top */
+    margin-right: 0; /* Bỏ margin-right giữa các nút trên mobile */
+  }
+  /* Khoảng cách giữa nút Lưu và Hủy trên mobile */
+  .add-branch-block form .btn.primary-btn {
+    margin-bottom: 10px;
+  }
+
+  .branch-list th,
+  .branch-list td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+  .branch-list td .btn {
+    padding: 4px 8px;
+    font-size: 0.8em;
+    margin: 0 3px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.8em;
+  }
+  .branch-management-container {
+    padding: 10px;
+  }
+  .add-branch-block h2,
+  .branch-list h2 {
+    font-size: 1.1em;
+  }
+  /* Điều chỉnh form thêm chi nhánh trên màn hình rất nhỏ */
+  .add-branch-block form {
+    gap: 8px;
+  }
+  .branch-list th,
+  .branch-list td {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+  .branch-list td .btn {
+    padding: 3px 6px;
+    font-size: 0.7em;
+    margin: 0 2px;
+  }
+}

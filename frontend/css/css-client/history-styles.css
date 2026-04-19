@@ -1,0 +1,252 @@
+/* --- Style cho trang Lịch Sử Đặt Hẹn --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 100px; /* Khoảng trống để tránh header trên desktop (Điều chỉnh nếu cần) */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px; /* Giảm khoảng cách dưới tiêu đề chính */
+  font-size: 2.5em;
+}
+
+/* Style cho dòng hiển thị tên khách hàng */
+.customer-history-info {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px; /* Khoảng cách dưới dòng này */
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/* Container mới cho danh sách lịch hẹn dạng khối */
+.appointment-history-list {
+  max-width: 800px; /* Chiều rộng tối đa cho danh sách khối */
+  margin: 20px auto; /* Căn giữa */
+  display: flex; /* Sử dụng flexbox để xếp các khối */
+  flex-direction: column; /* Xếp các khối theo cột */
+  gap: 20px; /* Khoảng cách giữa các khối */
+}
+
+/* Style cho từng khối lịch hẹn */
+.appointment-history-item {
+  background-color: #fff; /* Nền trắng */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex; /* Dùng flexbox để chia details và actions */
+  justify-content: space-between; /* Đẩy details và actions ra hai đầu */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  flex-wrap: wrap; /* Cho phép xuống dòng trên màn hình nhỏ */
+}
+
+/* Style cho phần chi tiết trong khối */
+.appointment-details-card {
+  flex: 1; /* Cho phép phần details giãn nở */
+  min-width: 250px; /* Chiều rộng tối thiểu */
+  margin-right: 15px; /* Khoảng cách với phần actions */
+}
+
+.appointment-details-card p {
+  margin-bottom: 8px; /* Khoảng cách giữa các dòng thông tin */
+  color: #555;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.appointment-details-card p strong {
+  color: #333; /* Màu đậm hơn cho label */
+  display: inline-block; /* Đảm bảo strong không ảnh hưởng đến line-height */
+  min-width: 100px; /* Chiều rộng tối thiểu cho label để căn chỉnh (điều chỉnh nếu cần) */
+}
+
+/* Style cho dòng Tổng tiền trong khối */
+.appointment-total-card {
+  font-weight: bold; /* In đậm */
+  color: #ff7f00; /* Màu cam */
+  margin-top: 10px; /* Khoảng cách trên */
+  padding-top: 8px; /* Padding trên */
+  border-top: 1px dashed #ccc; /* Đường kẻ đứt nét trên */
+}
+
+/* Style cho trạng thái trong khối */
+.appointment-status-card {
+  font-weight: bold;
+  /* Màu sắc sẽ thay đổi tùy thuộc vào class trạng thái */
+}
+
+/* Màu sắc trạng thái */
+.status-completed {
+  color: #5cb85c; /* Màu xanh lá cây cho Hoàn Thành */
+}
+
+.status-cancelled {
+  color: #d9534f; /* Màu đỏ cho Đã Hủy */
+}
+
+.status-pending {
+  color: #f0ad4e; /* Màu vàng cam cho Chờ xác nhận */
+}
+/* Thêm các trạng thái khác nếu có */
+
+/* Style cho phần hành động (nút) trong khối */
+.appointment-actions-card {
+  display: flex; /* Dùng flexbox cho các nút */
+  gap: 10px; /* Khoảng cách giữa các nút */
+  flex-wrap: wrap; /* Cho phép nút xuống dòng trên màn hình nhỏ */
+  justify-content: flex-end; /* Căn nút sang phải (trên desktop) */
+}
+
+/* Style cho nút Hủy Lịch */
+.btn-cancel-appointment {
+  background-color: #dc3545; /* Màu đỏ */
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-cancel-appointment:hover {
+  background-color: #c82333;
+}
+
+/* Style cho nút Xem (nếu có) */
+.btn-view {
+  background-color: #0275d8; /* Màu xanh dương */
+  color: #fff;
+  border: none;
+  padding: 8px 15px;
+  font-size: 0.9em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-view:hover {
+  background-color: #025aa5;
+}
+
+/* Style cho thông báo khi không có lịch sử */
+.no-history {
+  text-align: center;
+  color: #777;
+  font-size: 1.1em;
+  padding: 20px;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  margin-top: 20px;
+  max-width: 800px; /* Cùng chiều rộng với container list */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* --- Responsive adjustments for History page --- */
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px; /* Điều chỉnh padding top nếu header mobile nhỏ hơn */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+  /* Điều chỉnh style tên khách hàng trên mobile */
+  .customer-history-info {
+    font-size: 1em;
+    margin-bottom: 15px;
+  }
+  /* Điều chỉnh container list và các khối trên mobile */
+  .appointment-history-list {
+    padding: 0 10px; /* Thêm padding ngang nhẹ */
+    gap: 15px; /* Giảm khoảng cách giữa các khối */
+  }
+  .appointment-history-item {
+    flex-direction: column; /* Xếp chi tiết và hành động theo cột trên mobile */
+    align-items: flex-start; /* Căn trái nội dung khi xếp cột */
+    padding: 15px;
+  }
+  .appointment-details-card {
+    margin-right: 0;
+    margin-bottom: 15px; /* Khoảng cách dưới details khi xếp cột */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+  .appointment-details-card p {
+    font-size: 0.95em;
+    margin-bottom: 6px;
+  }
+  .appointment-details-card p strong {
+    min-width: 80px; /* Điều chỉnh min-width cho label trên mobile */
+  }
+  /* Điều chỉnh style Tổng tiền trong khối trên mobile */
+  .appointment-total-card {
+    font-size: 1em;
+    margin-top: 8px;
+    padding-top: 6px;
+  }
+  .appointment-actions-card {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+    justify-content: flex-start; /* Căn nút sang trái trên mobile */
+    gap: 8px; /* Giảm khoảng cách giữa các nút */
+  }
+  .btn-cancel-appointment,
+  .btn-view {
+    font-size: 0.85em;
+    padding: 6px 12px;
+  }
+  .no-history {
+    font-size: 1em;
+    padding: 15px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.8em;
+  }
+  /* Điều chỉnh style tên khách hàng trên màn hình rất nhỏ */
+  .customer-history-info {
+    font-size: 0.9em;
+    margin-bottom: 10px;
+  }
+  /* Điều chỉnh container list và các khối trên màn hình rất nhỏ */
+  .appointment-history-list {
+    gap: 10px;
+  }
+  .appointment-history-item {
+    padding: 12px;
+  }
+  .appointment-details-card p {
+    font-size: 0.9em;
+    margin-bottom: 5px;
+  }
+  .appointment-details-card p strong {
+    min-width: 70px;
+  }
+  /* Điều chỉnh style Tổng tiền trong khối trên màn hình rất nhỏ */
+  .appointment-total-card {
+    font-size: 0.9em;
+    margin-top: 6px;
+    padding-top: 5px;
+  }
+  .appointment-actions-card {
+    gap: 6px;
+  }
+  .btn-cancel-appointment,
+  .btn-view {
+    font-size: 0.8em;
+    padding: 5px 10px;
+  }
+  .no-history {
+    font-size: 0.9em;
+    padding: 12px;
+  }
+}

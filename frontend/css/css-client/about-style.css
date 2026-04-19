@@ -1,0 +1,201 @@
+/* --- Style cho trang Về chúng tôi --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 80px; /* Tăng khoảng trống để tránh header trên desktop */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+/* Style chung cho các section nội dung */
+.about-section,
+.mission-section {
+  display: flex; /* Sử dụng Flexbox để sắp xếp nội dung và hình ảnh cạnh nhau */
+  align-items: center; /* Căn giữa các mục theo chiều dọc */
+  margin-bottom: 40px; /* Khoảng cách giữa các section */
+  background-color: #fff; /* Nền trắng cho section */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.about-section {
+  flex-direction: row; /* Mặc định ảnh bên phải, nội dung bên trái */
+}
+
+.mission-section {
+  flex-direction: row-reverse; /* Ảnh bên trái, nội dung bên phải */
+}
+
+.about-content,
+.mission-content {
+  flex: 1; /* Cho phép nội dung giãn nở */
+  padding-right: 30px; /* Khoảng cách giữa nội dung và ảnh */
+}
+
+.mission-content {
+  padding-right: 0;
+  padding-left: 30px; /* Khoảng cách giữa nội dung và ảnh */
+}
+
+.about-image,
+.mission-image {
+  flex: 1; /* Cho phép ảnh giãn nở */
+  max-width: 50%; /* Chiều rộng tối đa của ảnh */
+  border-radius: 8px; /* Bo tròn góc ảnh */
+  overflow: hidden; /* Đảm bảo ảnh bên trong không tràn ra */
+}
+
+.about-image img,
+.mission-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Đảm bảo ảnh phủ kín khu vực */
+}
+
+.about-content h2,
+.mission-content h2 {
+  color: #ff7f00; /* Màu cam cho tiêu đề nhỏ */
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.8em;
+}
+
+.about-content p,
+.mission-content p {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+
+/* Style cho Section Đội ngũ */
+.team-section {
+  margin-bottom: 40px;
+  text-align: center; /* Căn giữa nội dung */
+}
+
+.team-section h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2em;
+}
+
+.team-members {
+  display: grid; /* Sử dụng Grid để tạo lưới các thành viên */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(200px, 1fr)
+  ); /* Tự động tạo cột */
+  gap: 30px; /* Khoảng cách giữa các thành viên */
+}
+
+.team-member {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.team-member img {
+  display: block;
+  width: 100%; /* Ảnh chiếm toàn bộ chiều rộng container */
+  height: 250px; /* Chiều cao cố định cho ảnh thành viên (điều chỉnh nếu cần) */
+  object-fit: contain; /* Thay đổi từ cover sang contain */
+  border-radius: 5px; /* Bo tròn góc ảnh thành viên */
+  margin-bottom: 15px;
+  /* Optional: Add a background color to the container if using object-fit: contain */
+  /* background-color: #eee; */
+}
+
+.team-member h3 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+}
+
+.team-member p {
+  color: #777;
+  font-size: 0.9em;
+}
+
+/* --- Responsive adjustments for About page --- */
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 200px; /* Tăng khoảng trống để tránh header mobile */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
+
+  .about-section,
+  .mission-section {
+    flex-direction: column; /* Xếp nội dung và ảnh theo cột trên mobile */
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+
+  .about-content,
+  .mission-content {
+    padding-right: 0; /* Bỏ padding ngang */
+    padding-left: 0;
+    margin-bottom: 20px; /* Khoảng cách dưới nội dung khi xếp cột */
+  }
+
+  .about-content h2,
+  .mission-content h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+
+  .about-image,
+  .mission-image {
+    max-width: 100%; /* Ảnh chiếm toàn bộ chiều rộng container */
+    margin-bottom: 15px; /* Khoảng cách dưới ảnh khi xếp cột */
+  }
+
+  .team-section h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+
+  .team-members {
+    gap: 20px; /* Giảm khoảng cách giữa các thành viên */
+  }
+
+  .team-member img {
+    height: 200px; /* Điều chỉnh chiều cao ảnh thành viên trên mobile */
+    object-fit: contain; /* Thay đổi từ cover sang contain */
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.8em;
+  }
+  .about-content h2,
+  .mission-content h2 {
+    font-size: 1.3em;
+  }
+  .team-section h2 {
+    font-size: 1.5em;
+  }
+  .team-member img {
+    height: 150px;
+    object-fit: contain; /* Thay đổi từ cover sang contain */
+  }
+}

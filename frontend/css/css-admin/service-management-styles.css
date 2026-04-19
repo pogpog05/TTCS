@@ -1,0 +1,285 @@
+/* --- Style cho trang Quản lý Dịch vụ --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 100px; /* Khoảng trống để tránh header trên desktop (Điều chỉnh nếu cần) */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+.service-list {
+  margin: 20px auto;
+  max-width: fit-content;
+}
+
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề chính */
+  font-size: 2.5em;
+}
+
+/* Container chính cho nội dung quản lý dịch vụ */
+.service-management-container {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* --- Thêm style để căn giữa container này --- */
+  max-width: 900px; /* Đặt chiều rộng tối đa cho container */
+  margin-left: auto; /* Căn giữa */
+  margin-right: auto; /* Căn giữa */
+  /* ----------------------------------------- */
+}
+
+/* Style cho khối thêm dịch vụ mới */
+.add-service-block {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.add-service-block h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+/* Style cho CONTAINER BỌC FORM (Ẩn ban đầu) */
+.add-service-form-container {
+  display: none; /* Ẩn form ban đầu */
+  margin-top: 20px; /* Khoảng cách trên form khi nó hiển thị */
+  /* Tùy chọn: Thêm hiệu ứng fade-in */
+  /* opacity: 0; */
+  /* transition: opacity 0.4s ease-in-out; */
+  /* Bỏ căn giữa ở đây vì container cha đã được căn giữa */
+  max-width: none; /* Bỏ giới hạn chiều rộng */
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Class để hiển thị form (sẽ được thêm bằng JS) */
+.add-service-form-container.visible {
+  display: block; /* Hiển thị form dưới dạng block */
+  /* opacity: 1; */
+}
+
+/* Style cho form thêm dịch vụ */
+.add-service-block form {
+  display: flex; /* Sử dụng flexbox */
+  flex-direction: column; /* Xếp các mục theo cột (chiều dọc) */
+  gap: 15px; /* Khoảng cách giữa các mục form */
+  /* Bỏ align-items: flex-end; vì các mục đã chiếm toàn bộ chiều rộng */
+  /* align-items: flex-end; */
+  /* Bỏ max-width và margin auto ở đây vì đã áp dụng cho container bọc form */
+  max-width: none;
+  margin: 0;
+}
+
+/* Style cho các nhóm form (label + input) trong form thêm dịch vụ */
+.add-service-block .form-group {
+  flex-grow: 0; /* Không cho phép giãn nở */
+  flex-basis: auto; /* Chiều rộng cơ sở tự động */
+  margin-bottom: 0; /* Loại bỏ margin-bottom mặc định của form-group */
+  width: 100%; /* Mỗi nhóm form chiếm toàn bộ chiều rộng của form */
+}
+
+/* Bỏ style riêng cho nhóm form Giá và Thời lượng vì chúng đã chiếm 100% */
+/* .add-service-block .form-group:nth-of-type(2) {
+     width: 200px;
+}
+.add-service-block .form-group:nth-of-type(3) {
+     width: 120px;
+} */
+
+/* Style cho các ô input trong form thêm dịch vụ */
+.add-service-block input[type="text"],
+.add-service-block input[type="number"],
+.add-service-block textarea,
+.add-service-block select {
+  /* Thêm select/textarea nếu có */
+  width: 100%; /* Ô input chiếm toàn bộ chiều rộng của form-group chứa nó */
+  padding: 8px 10px; /* Padding cho input */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Style cho label trong form thêm dịch vụ */
+.add-service-block .form-group label {
+  display: block; /* Nhãn trên trường nhập */
+  margin-bottom: 5px; /* Khoảng cách nhỏ hơn giữa label và input */
+  font-weight: bold;
+  color: #555;
+  font-size: 0.9em;
+}
+
+/* Style cho nút submit và nút hủy trong form thêm dịch vụ */
+.add-service-block form .btn {
+  padding: 8px 15px; /* Padding nút */
+  font-size: 1em;
+  margin-top: 0; /* Bỏ margin-top vì gap đã tạo khoảng cách */
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+  /* Các style màu sắc, border, transition đã có trong style.css */
+}
+
+/* Style cho nút Hủy (để nó nằm cạnh nút Lưu) */
+.add-service-block form #cancel-add-service-form-btn {
+  margin-right: 0; /* Bỏ margin-right cho nút cuối cùng */
+}
+
+/* Style cho bảng danh sách dịch vụ */
+.service-list h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+.service-list table {
+  width: 100%; /* Bảng chiếm toàn bộ chiều rộng container */
+  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các border */
+  overflow-x: auto; /* Thêm cuộn ngang cho bảng trên màn hình nhỏ */
+  display: block; /* Cần display block cho overflow-x hoạt động */
+}
+
+.service-list thead {
+  display: table-header-group; /* Đảm bảo thead hiển thị đúng */
+}
+
+.service-list th,
+.service-list td {
+  padding: 12px;
+  text-align: left; /* Căn trái nội dung trong ô */
+  border-bottom: 1px solid #ddd; /* Đường kẻ dưới mỗi hàng */
+}
+
+.service-list th {
+  background-color: #f2f2f2; /* Nền xám cho header bảng */
+  font-weight: bold;
+  color: #333;
+}
+
+.service-list tbody tr:hover {
+  background-color: #f9f9f9; /* Nền nhạt khi di chuột qua hàng */
+}
+
+/* Style cho cột hành động */
+.service-list td:last-child {
+  text-align: center; /* Căn giữa các nút hành động */
+  white-space: nowrap; /* Ngăn các nút xuống dòng */
+}
+
+.service-list td .btn {
+  padding: 5px 10px;
+  font-size: 0.9em;
+  margin: 0 5px; /* Khoảng cách giữa các nút */
+}
+
+/* Style cho nút sửa */
+.service-list .edit-btn {
+  background-color: #ffc107; /* Màu vàng */
+  color: #212529;
+  border: none;
+}
+.service-list .edit-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Style cho nút xóa */
+.service-list .delete-btn {
+  background-color: #dc3545; /* Màu đỏ */
+  color: #fff;
+  border: none;
+}
+.service-list .delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* --- Responsive adjustments for Service Management page --- */
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px; /* Điều chỉnh padding top nếu header mobile nhỏ hơn */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+  .service-management-container {
+    padding: 15px;
+    max-width: 95%; /* Cho phép container rộng hơn trên mobile */
+  }
+  .add-service-block h2,
+  .service-list h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  /* Điều chỉnh form thêm dịch vụ trên mobile */
+  .add-service-block form {
+    flex-direction: column; /* Xếp các mục theo cột trên mobile */
+    gap: 10px; /* Giảm khoảng cách */
+    align-items: stretch; /* Kéo giãn các mục */
+    max-width: none; /* Bỏ giới hạn chiều rộng trên mobile */
+    margin: 0; /* Bỏ căn giữa trên mobile */
+  }
+  .add-service-block .form-group {
+    flex-basis: auto; /* Bỏ chiều rộng cơ sở */
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+  .add-service-block form .btn {
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+    margin-top: 10px; /* Điều chỉnh margin-top */
+    margin-right: 0; /* Bỏ margin-right giữa các nút trên mobile */
+  }
+  /* Khoảng cách giữa nút Lưu và Hủy trên mobile */
+  .add-service-block form .btn.primary-btn {
+    margin-bottom: 10px;
+  }
+
+  .service-list th,
+  .service-list td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+  .service-list td .btn {
+    padding: 4px 8px;
+    font-size: 0.8em;
+    margin: 0 3px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.8em;
+  }
+  .service-management-container {
+    padding: 10px;
+  }
+  .add-service-block h2,
+  .service-list h2 {
+    font-size: 1.1em;
+  }
+  /* Điều chỉnh form thêm dịch vụ trên màn hình rất nhỏ */
+  .add-service-block form {
+    gap: 8px;
+  }
+  .service-list th,
+  .service-list td {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+  .service-list td .btn {
+    padding: 3px 6px;
+    font-size: 0.7em;
+    margin: 0 2px;
+  }
+}

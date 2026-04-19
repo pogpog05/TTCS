@@ -1,0 +1,577 @@
+/* --- Style cho trang Đặt lịch hẹn --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 80px; /* Khoảng trống bằng chiều cao header */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang đặt lịch */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+}
+
+/* Style cho đoạn mô tả dưới heading */
+.page-main p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px; /* Khoảng cách dưới đoạn mô tả */
+  font-size: 1.1em;
+}
+
+/* --- Style cho Khối Tìm kiếm Salon --- */
+.salon-search-block {
+  background-color: #fff; /* Nền trắng cho khối tìm kiếm */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* Chiều rộng tương tự form đặt lịch */
+  margin: 20px auto; /* Căn giữa và thêm khoảng cách trên/dưới */
+  text-align: center; /* Căn giữa nội dung */
+  position: relative; /* Cần cho định vị tuyệt đối kết quả tìm kiếm nếu dùng dropdown */
+}
+
+.salon-search-block h2 {
+  text-align: left; /* Căn trái tiêu đề khối */
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.salon-search-block .search-input-group {
+  margin-bottom: 20px; /* Khoảng cách dưới input */
+}
+
+.salon-search-block input[type="text"] {
+  width: 100%;
+  padding: 12px 15px; /* Padding cho input */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+  /* Có thể thêm placeholder style nếu cần */
+  /* &::placeholder { color: #aaa; } */
+}
+
+/* Style cho nút Tìm Kiếm (sử dụng lại style .btn từ style.css) */
+.salon-search-block .btn.search-btn {
+  display: inline-block; /* Hoặc block nếu muốn nút chiếm hết chiều ngang */
+  padding: 12px 30px; /* Padding nút */
+  font-size: 1.1em;
+  background-color: #5cb85c; /* Màu xanh lá (ví dụ từ ảnh) */
+  color: #fff;
+  border: none;
+  border-radius: 5px; /* Đã sửa lỗi cú pháp ở đây */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* margin-top: 10px; /* Khoảng trống trên nút nếu cần */
+}
+
+.salon-search-block .btn.search-btn:hover {
+  background-color: #4cae4c; /* Màu xanh lá đậm hơn khi hover */
+}
+
+/* Style cho khu vực hiển thị danh sách kết quả */
+.salon-list-results {
+  margin-top: 20px; /* Khoảng trống trên danh sách kết quả */
+  border-top: 1px solid #eee; /* Đường kẻ trên danh sách */
+  padding-top: 15px;
+  text-align: left; /* Căn trái nội dung danh sách */
+  max-height: 200px; /* Giới hạn chiều cao */
+  overflow-y: auto; /* Thêm cuộn nếu cần */
+}
+
+/* Style cho từng mục salon trong danh sách (sẽ được tạo bằng JS) */
+.salon-list-results .salon-item {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  color: #555;
+}
+
+.salon-list-results .salon-item:last-child {
+  border-bottom: none;
+}
+
+.salon-list-results .salon-item:hover {
+  background-color: #f9f9f9;
+  color: #000;
+}
+
+/* --- Style cho Khối Form Đặt lịch Chi tiết --- */
+.appointment-form-container {
+  background-color: #fff; /* Nền trắng cho form */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 40px; /* Khoảng trống trên form (dưới khối tìm kiếm) */
+  max-width: 600px; /* Chiều rộng tối đa của form */
+  margin-left: auto;
+  margin-right: auto; /* Căn giữa form container */
+  position: relative; /* Cần cho định vị tuyệt đối của các phần tử con nếu có */
+}
+
+/* Style chung cho các nhóm form (label + input/select/textarea) */
+.appointment-form-container .form-group {
+  margin-bottom: 20px; /* Khoảng cách mặc định giữa các trường form */
+  position: relative; /* Có thể cần nếu có icon hoặc phần tử định vị tuyệt đối bên trong */
+}
+
+.appointment-form-container .form-group label {
+  display: block; /* Nhãn trên trường nhập */
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  font-size: 0.95em;
+}
+
+.appointment-form-container .form-group input[type="text"],
+.appointment-form-container .form-group input[type="tel"],
+.appointment-form-container .form-group input[type="email"],
+.appointment-form-container .form-group input[type="date"],
+.appointment-form-container .form-group input[type="time"],
+.appointment-form-container .form-group select,
+.appointment-form-container .form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif; /* Đảm bảo font nhất quán */
+  box-sizing: border-box; /* Bao gồm padding và border trong chiều rộng */
+}
+
+.appointment-form-container .form-group textarea {
+  resize: vertical; /* Chỉ cho phép resize theo chiều dọc */
+}
+
+/* Style cho label có dấu sao bắt buộc */
+.appointment-form-container .form-group label .required {
+  color: red; /* Màu đỏ cho dấu sao */
+  margin-left: 4px;
+}
+
+/* Style cho container chứa các khung giờ */
+.time-slots-container {
+  display: grid; /* Sử dụng Grid để tạo lưới các khung giờ */
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(100px, 1fr)
+  ); /* Tự động tạo cột, mỗi cột min 100px, max 1fr */
+  gap: 10px; /* Khoảng cách giữa các khung giờ */
+  margin-top: 10px; /* Khoảng cách trên container */
+}
+
+/* Style cho mỗi nút khung giờ */
+.time-slot-button {
+  background-color: #eee; /* Nền xám nhạt mặc định */
+  color: #333; /* Màu chữ mặc định */
+  padding: 10px 15px;
+  border-radius: 8px; /* Bo tròn góc */
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+  user-select: none; /* Ngăn chọn văn bản */
+  font-weight: bold;
+  border: 1px solid #ccc; /* Border mặc định */
+}
+
+/* Style khi di chuột qua nút khung giờ */
+.time-slot-button:hover {
+  background-color: #ddd;
+  border-color: #bbb;
+}
+
+/* Style cho khung giờ được chọn (active) */
+.time-slot-button.active {
+  background-color: #673ab7; /* Màu tím (ví dụ từ ảnh form đăng nhập) */
+  color: #fff; /* Màu chữ trắng */
+  border-color: #673ab7;
+}
+
+/* Style cho khung giờ không khả dụng (tùy chọn, cần JS để thêm class này) */
+.time-slot-button.unavailable {
+  background-color: #f8f8f8;
+  color: #aaa;
+  cursor: not-allowed;
+  border-color: #eee;
+}
+
+.time-slot-button.unavailable:hover {
+  background-color: #f8f8f8; /* Không đổi màu khi hover */
+  color: #aaa;
+  border-color: #eee;
+}
+
+/* --- Style cho phần hiển thị Tổng tiền dự kiến --- */
+.total-amount-display {
+  margin-top: 20px; /* Khoảng cách trên */
+  padding-top: 15px; /* Padding trên */
+  border-top: 1px solid #eee; /* Đường kẻ trên */
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #ff7f00; /* Màu cam */
+  display: flex; /* Dùng flexbox để căn label và value */
+  justify-content: space-between; /* Đẩy label và value ra hai đầu */
+  align-items: center;
+}
+
+.total-amount-display label {
+  margin-bottom: 0; /* Bỏ margin-bottom cho label trong flex */
+  font-weight: bold; /* Đảm bảo label vẫn đậm */
+  color: #333; /* Màu chữ cho label */
+  font-size: 1em; /* Kích thước font cho label */
+}
+
+.total-amount-display span {
+  font-size: 1.2em; /* Kích thước font cho giá trị tổng tiền */
+  color: #000000; /* Màu cam cho giá trị */
+}
+/* ------------------------------------------------ */
+
+/* Style cho nút submit (sử dụng lại style .btn và .primary-btn từ style.css) */
+/* Giả định nút submit có class .btn và .primary-btn */
+.appointment-form-container .btn.primary-btn {
+  display: block; /* Nút chiếm toàn bộ chiều rộng */
+  width: 100%;
+  padding: 12px;
+  font-size: 1.1em;
+  margin-top: 20px;
+  /* Các style màu sắc, border, transition đã có trong style.css cho .primary-btn */
+}
+
+/* --- Style cho Modal Xác nhận Lịch Hẹn --- */
+.confirmation-modal-overlay {
+  position: fixed; /* Cố định modal trên màn hình */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Lớp phủ nền đen mờ */
+  display: flex; /* Dùng flexbox để căn giữa modal content */
+  justify-content: center; /* Căn giữa theo chiều ngang */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  z-index: 9999; /* Tăng z-index lên giá trị rất cao */
+  visibility: hidden; /* Ẩn modal ban đầu */
+  opacity: 0; /* Ẩn hoàn toàn bằng opacity */
+  transition:
+    visibility 0.3s ease-in-out,
+    opacity 0.3s ease-in-out; /* Hiệu ứng mờ dần */
+}
+
+.confirmation-modal-overlay.visible {
+  visibility: visible; /* Hiển thị modal */
+  opacity: 1; /* Hiện đầy đủ */
+}
+
+.confirmation-modal-content {
+  background-color: #fff; /* Nền trắng cho nội dung modal */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  max-width: 450px; /* Chiều rộng tối đa của modal */
+  width: 90%; /* Chiếm 90% chiều rộng trên màn hình nhỏ */
+  text-align: left; /* Căn trái nội dung text */
+  position: relative;
+  transform: translateY(-20px); /* Hiệu ứng trượt nhẹ khi hiện */
+  transition: transform 0.3s ease-in-out;
+}
+
+.confirmation-modal-overlay.visible .confirmation-modal-content {
+  transform: translateY(0); /* Trở về vị trí ban đầu khi hiện */
+}
+
+.confirmation-modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.8em;
+  text-align: center; /* Căn giữa tiêu đề modal */
+}
+
+.appointment-details-summary p {
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 1em;
+  line-height: 1.5;
+  border-bottom: 1px dashed #eee; /* Đường kẻ đứt nét giữa các dòng */
+  padding-bottom: 8px;
+}
+
+.appointment-details-summary p:last-child {
+  border-bottom: none; /* Bỏ border dưới cho dòng cuối cùng */
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.appointment-details-summary p strong {
+  color: #333; /* Màu đậm hơn cho label */
+  display: inline-block; /* Đảm bảo strong không ảnh hưởng đến line-height */
+  min-width: 100px; /* Chiều rộng tối thiểu cho label để căn chỉnh (điều chỉnh nếu cần) */
+}
+
+/* Style riêng cho dòng Tổng tiền trong modal */
+.appointment-details-summary .summary-total {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 2px solid #ff7f00; /* Đường kẻ đậm */
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #ff7f00; /* Màu cam */
+  display: flex; /* Dùng flexbox để căn chỉnh label và value */
+  justify-content: space-between;
+}
+
+.appointment-details-summary .summary-total strong {
+  color: #ff7f00; /* Màu cam cho label Tổng tiền */
+}
+
+.appointment-details-summary .summary-total span {
+  color: #ff7f00; /* Màu cam cho giá trị Tổng tiền */
+}
+
+.modal-buttons {
+  margin-top: 30px;
+  text-align: center; /* Căn giữa các nút */
+}
+
+.modal-buttons .btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.modal-buttons .confirm-btn {
+  background-color: #5cb85c; /* Màu xanh lá cây */
+  color: #fff;
+  border: none;
+  margin-right: 15px; /* Khoảng cách giữa hai nút */
+}
+
+.modal-buttons .confirm-btn:hover {
+  background-color: #4cae4c;
+}
+
+.modal-buttons .cancel-btn {
+  background-color: #ccc; /* Màu xám */
+  color: #333;
+  border: none;
+}
+
+.modal-buttons .cancel-btn:hover {
+  background-color: #bbb;
+}
+
+/* --- Responsive adjustments for the appointment page --- */
+
+@media screen and (max-width: 1024px) {
+  .page-main h1 {
+    font-size: 2em;
+  }
+  .page-main p {
+    font-size: 1em;
+  }
+  .salon-search-block,
+  .appointment-form-container {
+    max-width: 500px; /* Điều chỉnh chiều rộng trên tablet */
+    padding: 25px; /* Giảm padding */
+  }
+  .salon-search-block h2 {
+    font-size: 1.4em;
+  }
+  .salon-search-block input[type="text"] {
+    padding: 10px 12px;
+  }
+  .salon-search-block .btn.search-btn {
+    font-size: 1em;
+    padding: 10px 25px;
+  }
+  .appointment-form-container .form-group {
+    margin-bottom: 18px; /* Điều chỉnh khoảng cách form group */
+  }
+  .appointment-form-container .form-group label {
+    font-size: 0.9em;
+  }
+  .appointment-form-container .form-group input[type="text"],
+  .appointment-form-container .form-group input[type="tel"],
+  .appointment-form-container .form-group input[type="email"],
+  .appointment-form-container .form-group input[type="date"],
+  .appointment-form-container .form-group input[type="time"],
+  .appointment-form-container .form-group select,
+  .appointment-form-container .form-group textarea {
+    padding: 9px;
+  }
+  /* Điều chỉnh style Tổng tiền dự kiến trên tablet */
+  .total-amount-display {
+    font-size: 1.1em;
+    margin-top: 18px;
+    padding-top: 12px;
+  }
+  .total-amount-display span {
+    font-size: 1.1em;
+  }
+
+  .appointment-form-container .btn.primary-btn {
+    font-size: 1em;
+    padding: 10px;
+    margin-top: 18px;
+  }
+  .search-results {
+    max-height: 120px; /* Giảm chiều cao trên mobile */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px; /* Điều chỉnh padding top nếu header mobile nhỏ hơn */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+  }
+  .page-main p {
+    font-size: 0.9em;
+    margin-bottom: 20px;
+  }
+  .salon-search-block,
+  .appointment-form-container {
+    width: 90%; /* Chiếm phần lớn chiều rộng màn hình */
+    padding: 20px; /* Giảm padding trên màn hình nhỏ */
+    margin-top: 25px; /* Khoảng cách giữa khối tìm kiếm và form */
+  }
+
+  .salon-search-block h2 {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+  .salon-search-block .search-input-group {
+    margin-bottom: 15px;
+  }
+  .salon-search-block input[type="text"] {
+    padding: 10px 12px;
+  }
+  .salon-search-block .btn.search-btn {
+    font-size: 1em;
+    padding: 10px 20px;
+  }
+
+  .appointment-form-container .form-group {
+    margin-bottom: 15px; /* Giảm khoảng cách giữa các trường trên mobile */
+  }
+
+  .appointment-form-container .form-group input[type="text"],
+  .appointment-form-container .form-group input[type="tel"],
+  .appointment-form-container .form-group input[type="email"],
+  .appointment-form-container .form-group input[type="date"],
+  .appointment-form-container .form-group input[type="time"],
+  .appointment-form-container .form-group select,
+  .appointment-form-container .form-group textarea {
+    padding: 8px; /* Giảm padding input trên mobile */
+  }
+  /* Điều chỉnh style Tổng tiền dự kiến trên mobile */
+  .total-amount-display {
+    font-size: 1.1em;
+    margin-top: 15px;
+    padding-top: 10px;
+  }
+  .total-amount-display span {
+    font-size: 1.1em;
+  }
+
+  .appointment-form-container .btn.primary-btn {
+    font-size: 1em;
+    padding: 10px;
+    margin-top: 15px;
+  }
+  .search-results {
+    max-height: 120px; /* Giảm chiều cao trên mobile */
+  }
+
+  /* Responsive adjustments for Modal on mobile */
+  .confirmation-modal-content {
+    padding: 20px;
+  }
+  .confirmation-modal-content h2 {
+    font-size: 1.5em;
+  }
+  .appointment-details-summary p {
+    font-size: 0.9em;
+  }
+  .appointment-details-summary p strong {
+    min-width: 80px; /* Điều chỉnh min-width cho label trên mobile */
+  }
+  .appointment-details-summary .summary-total {
+    font-size: 1em;
+  }
+  .modal-buttons {
+    margin-top: 20px;
+  }
+  .modal-buttons .btn {
+    padding: 8px 15px;
+    font-size: 0.9em;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.5em;
+  }
+  .salon-search-block h2 {
+    font-size: 1.2em;
+  }
+  .salon-search-block .btn.search-btn {
+    font-size: 0.9em;
+    padding: 8px 15px;
+  }
+  /* Điều chỉnh style Tổng tiền dự kiến trên màn hình rất nhỏ */
+  .total-amount-display {
+    font-size: 1em;
+    margin-top: 10px;
+    padding-top: 8px;
+  }
+  .total-amount-display span {
+    font-size: 1em;
+  }
+
+  .appointment-form-container .btn.primary-btn {
+    font-size: 0.9em;
+    padding: 8px;
+  }
+
+  /* Responsive adjustments for Modal on very small screens */
+  .confirmation-modal-content {
+    padding: 15px;
+  }
+  .confirmation-modal-content h2 {
+    font-size: 1.3em;
+  }
+  .appointment-details-summary p {
+    font-size: 0.85em;
+  }
+  .appointment-details-summary p strong {
+    min-width: 70px;
+  }
+  .appointment-details-summary .summary-total {
+    font-size: 0.9em;
+  }
+  .modal-buttons .btn {
+    font-size: 0.85em;
+    padding: 6px 12px;
+  }
+}

@@ -1,0 +1,225 @@
+/* --- Styles for Login/Register Forms --- */
+
+body {
+  /* font-family, line-height, margin, box-sizing, etc. đã có trong style.css */
+  /* Chỉ giữ các style riêng của trang form */
+  background-color: #f4f4f4; /* Màu nền nhẹ */
+  display: flex; /* Dùng flexbox để căn giữa form dễ hơn */
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Chiều cao tối thiểu bằng chiều cao viewport */
+  color: #333; /* Màu chữ mặc định cho form */
+  background-image: none; /* Quan trọng: Đảm bảo không có hình nền từ body style khác */
+  background-size: cover;
+  background-position: center;
+}
+
+.form-container {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Chiều rộng tối đa của form */
+  text-align: center;
+  /* Nếu trang login/register có header, cần thêm padding-top hoặc điều chỉnh position */
+  /* margin-top: 80px; /* Ví dụ nếu có header cố định 80px */
+  position: relative; /* Để định vị tuyệt đối nút quay lại */
+}
+.form-container h2 {
+  margin-top: 0;
+  color: #333;
+  font-size: 1.8em;
+  margin-bottom: 10px;
+}
+.form-container p {
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 1em;
+}
+.form-group {
+  margin-bottom: 15px;
+  text-align: left;
+  position: relative; /* Cho icon */
+}
+/* Ẩn nhãn nếu dùng placeholder và icon như ảnh */
+/* .form-group label {
+     display: none;
+} */
+.form-group .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%; /* Căn giữa theo chiều dọc */
+  transform: translateY(-50%);
+  color: #888;
+}
+.form-group input {
+  width: 100%;
+  padding: 12px 10px 12px 35px; /* Padding để tạo khoảng trống cho icon */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+}
+/* Style cho placeholder nếu cần */
+.form-group input::placeholder {
+  color: #aaa;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 20px;
+  font-size: 0.9em;
+}
+.forgot-password a {
+  color: #007bff; /* Màu xanh dương */
+  text-decoration: none;
+}
+.forgot-password a:hover {
+  text-decoration: underline;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #0472d8; /* Màu tím */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.btn-submit:hover {
+  background-color: #2600ff;
+}
+
+.divider {
+  margin: 30px 0;
+  font-size: 0.9em;
+  color: #888;
+  position: relative;
+  text-align: center;
+}
+.divider::before,
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 40%; /* Chiều rộng đường kẻ */
+  height: 1px;
+  background-color: #ccc;
+}
+.divider::before {
+  left: 0;
+}
+.divider::after {
+  right: 0;
+}
+.google-signin-button {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.google-signin-note {
+  margin: -8px 0 18px;
+  font-size: 0.85em;
+  color: #c25a00;
+  min-height: 1.2em;
+}
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* Khoảng cách giữa các icon */
+  margin-bottom: 30px;
+}
+.social-icon a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  font-size: 1.2em;
+  color: #555;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+.social-icon a:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.signup-link,
+.login-link {
+  /* Áp dụng style cho cả hai liên kết */
+  font-size: 0.9em;
+  color: #666;
+}
+.signup-link a,
+.login-link a {
+  color: #007bff; /* Màu xanh dương */
+  text-decoration: none;
+  font-weight: bold;
+}
+.signup-link a:hover,
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+/* Style cho nút Quay lại trang chủ trên form */
+.back-to-home {
+  text-align: left; /* Căn trái nội dung trong div */
+  margin-bottom: 20px; /* Khoảng trống dưới nút */
+  /* Định vị tuyệt đối ở góc trên bên trái của form-container */
+  position: absolute;
+  top: 15px; /* Điều chỉnh vị trí top */
+  left: 15px; /* Điều chỉnh vị trí left */
+  z-index: 10;
+}
+
+.back-to-home a {
+  color: #333; /* Màu liên kết */
+  text-decoration: none;
+  font-size: 1.2em; /* Kích thước icon/chữ */
+  transition: color 0.3s ease;
+  display: flex; /* Dùng flex để căn giữa icon và text nếu có */
+  align-items: center;
+}
+
+.back-to-home a:hover {
+  color: #007bff; /* Màu khi hover */
+}
+
+.back-to-home i {
+  margin-right: 5px; /* Khoảng cách giữa icon và text nếu có */
+}
+
+/* Responsive cho Form */
+@media screen and (max-width: 1024px) {
+  .form-container {
+    max-width: 350px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .form-container {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .form-group input {
+    padding: 10px 10px 10px 35px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-container h2 {
+    font-size: 1.5em;
+  }
+}

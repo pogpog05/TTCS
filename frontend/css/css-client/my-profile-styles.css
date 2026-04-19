@@ -1,0 +1,202 @@
+/* --- Style cho trang Thông Tin Cá Nhân --- */
+
+.page-main {
+  padding-top: 100px; /* Khoảng trống cho header cố định */
+  padding-bottom: 40px;
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+/* Style cho card chứa form */
+.profile-card {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 500px; /* Chiều rộng tối đa giống như trong hình */
+  margin: 30px auto; /* Căn giữa */
+  text-align: center; /* Căn giữa tiêu đề */
+}
+
+.profile-card h2 {
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 30px; /* Khoảng cách dưới tiêu đề */
+  font-size: 2em;
+}
+
+/* Style cho mỗi nhóm form-group (label + input) */
+.form-group {
+  text-align: left; /* Căn trái label và input */
+  margin-bottom: 20px; /* Khoảng cách giữa các nhóm */
+}
+
+.form-group label {
+  display: block; /* Đặt label trên input */
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 1.05em;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng width */
+}
+
+/* Style đặc biệt cho input readonly (Ngày đăng ký và chế độ xem) */
+.form-group input[readonly] {
+  background-color: #f2f2f2; /* Màu nền xám hơn */
+  color: #777; /* Chữ mờ hơn */
+  cursor: not-allowed; /* Con trỏ không cho phép nhập */
+}
+
+.form-group input:disabled {
+  background-color: #f2f2f2;
+  color: #777;
+  cursor: not-allowed;
+  opacity: 1;
+}
+
+/* Style cho container nút hành động */
+.profile-actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* Style cho nút Chỉnh sửa */
+.btn-edit {
+  background-color: #007bff; /* Màu xanh dương */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-flex; /* Để icon và text cùng dòng */
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa icon và text */
+}
+
+.btn-edit:hover {
+  background-color: #0056b3;
+}
+
+/* Style cho nút Cập Nhật */
+.btn-update {
+  background-color: #776e64; /* Màu nâu đất tương tự hình ảnh */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-flex; /* Để icon và text cùng dòng */
+  align-items: center;
+  gap: 8px; /* Khoảng cách giữa icon và text */
+}
+
+.btn-update:hover {
+  background-color: #635a50; /* Màu đậm hơn khi hover */
+}
+
+/* Style cho nút hủy */
+.btn-cancel {
+  background-color: #6c757d;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+.google-email-note {
+  margin: 8px 0 0;
+  font-size: 0.85em;
+  color: #b36b00;
+  line-height: 1.4;
+}
+
+/* Class để ẩn phần tử */
+.hidden {
+  display: none !important; /* Sử dụng !important để đảm bảo ghi đè */
+}
+
+/* --- Responsive Adjustments --- */
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px;
+  }
+  .profile-card {
+    margin: 20px 15px; /* Giảm margin trên mobile */
+    padding: 20px;
+  }
+  .profile-card h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group label {
+    font-size: 1em;
+    margin-bottom: 6px;
+  }
+  .form-group input {
+    padding: 10px;
+    font-size: 0.95em;
+  }
+  .btn-edit,
+  .btn-update,
+  .btn-cancel {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    gap: 6px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .profile-card {
+    margin: 15px 10px;
+    padding: 15px;
+  }
+  .profile-card h2 {
+    font-size: 1.5em;
+    margin-bottom: 15px;
+  }
+  .form-group {
+    margin-bottom: 12px;
+  }
+  .form-group label {
+    font-size: 0.9em;
+  }
+  .form-group input {
+    padding: 8px;
+    font-size: 0.85em;
+  }
+  .btn-edit,
+  .btn-update,
+  .btn-cancel {
+    padding: 6px 12px;
+    font-size: 0.85em;
+    gap: 5px;
+  }
+}

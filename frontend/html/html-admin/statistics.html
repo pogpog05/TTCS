@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thống kê hoạt động - Barber Shop Admin</title>
+    <link rel="stylesheet" href="../../css/css-admin/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../css/css-admin/admin-dashboard-styles.css"
+    />
+    <link rel="stylesheet" href="../../css/css-admin/statistics-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Trang chủ</a></li>
+            <li><a href="statistics.html">Thống kê</a></li>
+            <li><a href="customer-management.html">Khách hàng</a></li>
+            <li><a href="salon-appointments.html">Lịch hẹn</a></li>
+            <li><a href="branch-management.html">Chi nhánh</a></li>
+            <li><a href="service-management.html">Dịch vụ</a></li>
+            <li><a href="stylist-management.html">Stylist</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main statistics-main">
+      <div class="container statistics-container">
+        <h1>Thống kê hoạt động salon</h1>
+
+        <section class="filters-card">
+          <h2><i class="fas fa-filter"></i> Bộ lọc dữ liệu</h2>
+          <form id="statistics-filter-form" class="statistics-filter-form">
+            <div class="form-group">
+              <label for="start-date">Từ ngày</label>
+              <input type="date" id="start-date" name="start_date" required />
+            </div>
+            <div class="form-group">
+              <label for="end-date">Đến ngày</label>
+              <input type="date" id="end-date" name="end_date" required />
+            </div>
+            <div class="form-group">
+              <label for="branch-filter">Chi nhánh</label>
+              <select id="branch-filter" name="branch_id">
+                <option value="">Tất cả chi nhánh</option>
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn primary-btn">
+                <i class="fas fa-chart-line"></i> Xem thống kê
+              </button>
+              <button
+                type="button"
+                class="btn secondary-btn"
+                id="filter-reset-btn"
+              >
+                Đặt lại
+              </button>
+            </div>
+          </form>
+          <p class="filter-note">
+            Dữ liệu được cập nhật theo khoảng thời gian đã chọn và có thể lọc
+            theo từng chi nhánh.
+          </p>
+        </section>
+
+        <section class="kpi-grid">
+          <article class="kpi-card accent-orange">
+            <p class="kpi-label">Tổng lịch hẹn</p>
+            <p class="kpi-value" id="kpi-total-appointments">0</p>
+            <p class="kpi-delta" id="delta-total-appointments">
+              So với kỳ trước: --
+            </p>
+          </article>
+
+          <article class="kpi-card accent-green">
+            <p class="kpi-label">Doanh thu ước tính</p>
+            <p class="kpi-value" id="kpi-revenue">0đ</p>
+            <p class="kpi-delta" id="delta-revenue">So với kỳ trước: --</p>
+          </article>
+
+          <article class="kpi-card accent-blue">
+            <p class="kpi-label">Tỷ lệ hoàn thành</p>
+            <p class="kpi-value" id="kpi-completion-rate">0%</p>
+            <p class="kpi-delta neutral" id="delta-completion-rate">
+              Mục tiêu: từ 80% trở lên
+            </p>
+          </article>
+
+          <article class="kpi-card accent-red">
+            <p class="kpi-label">Tỷ lệ hủy lịch</p>
+            <p class="kpi-value" id="kpi-cancellation-rate">0%</p>
+            <p class="kpi-delta neutral" id="delta-cancellation-rate">
+              Khuyến nghị: dưới 20%
+            </p>
+          </article>
+
+          <article class="kpi-card accent-purple">
+            <p class="kpi-label">Khách có lịch trong kỳ</p>
+            <p class="kpi-value" id="kpi-unique-customers">0</p>
+            <p class="kpi-delta" id="delta-unique-customers">
+              So với kỳ trước: --
+            </p>
+          </article>
+
+          <article class="kpi-card accent-sky">
+            <p class="kpi-label">Khách quay lại</p>
+            <p class="kpi-value" id="kpi-repeat-customers">0</p>
+            <p class="kpi-delta" id="delta-repeat-customers">
+              So với kỳ trước: --
+            </p>
+          </article>
+
+          <article class="kpi-card accent-gray">
+            <p class="kpi-label">Khách mới đăng ký</p>
+            <p class="kpi-value" id="kpi-new-customers">0</p>
+            <p class="kpi-delta" id="delta-new-customers">
+              So với kỳ trước: --
+            </p>
+          </article>
+
+          <article class="kpi-card accent-gold">
+            <p class="kpi-label">Đơn nghỉ phép chờ duyệt</p>
+            <p class="kpi-value" id="kpi-pending-leave">0</p>
+            <p class="kpi-delta neutral">Cần xử lý trong ngày</p>
+          </article>
+        </section>
+
+        <section class="alert-card">
+          <h2><i class="fas fa-bell"></i> Cảnh báo vận hành</h2>
+          <div id="statistics-alerts" class="alerts-list">
+            <div class="alert-item info">Đang tải dữ liệu cảnh báo...</div>
+          </div>
+        </section>
+
+        <section class="charts-grid">
+          <div class="chart-card chart-card-wide">
+            <h2>Xu hướng lịch hẹn và doanh thu</h2>
+            <canvas id="dailyTrendChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h2>Cơ cấu trạng thái lịch hẹn</h2>
+            <canvas id="statusDistributionChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h2>Top dịch vụ theo doanh thu</h2>
+            <canvas id="topServicesChart"></canvas>
+          </div>
+        </section>
+
+        <section class="data-grid">
+          <div class="table-card">
+            <h2>Top stylist theo hiệu suất</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Tên stylist</th>
+                  <th>Số lịch</th>
+                  <th>Doanh thu</th>
+                </tr>
+              </thead>
+              <tbody id="top-stylists-body">
+                <tr>
+                  <td colspan="4" class="cell-center">Đang tải...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-card">
+            <h2>Hiệu suất theo chi nhánh</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Chi nhánh</th>
+                  <th>Lịch hẹn</th>
+                  <th>Hoàn thành</th>
+                  <th>Doanh thu</th>
+                </tr>
+              </thead>
+              <tbody id="branch-performance-body">
+                <tr>
+                  <td colspan="4" class="cell-center">Đang tải...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="table-card peak-hours-card">
+          <h2>Khung giờ cao điểm</h2>
+          <div id="peak-hours-list" class="peak-hours-list">
+            <span class="hour-chip">Đang tải...</span>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer
+      style="
+        background-color: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>Barber Shop. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-admin/admin-auth.js"></script>
+    <script src="../../js/js-admin/statistics-script.js"></script>
+  </body>
+</html>

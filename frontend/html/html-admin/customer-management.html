@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý Khách hàng - Barber Shop Admin</title>
+    <link rel="stylesheet" href="../../css/css-admin/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../css/css-admin/customer-management-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../css/css-admin/admin-dashboard-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="admin-dashboard.html">Trang chủ</a></li>
+            <li><a href="statistics.html">Thống kê</a></li>
+            <li><a href="customer-management.html">Khách hàng</a></li>
+            <li><a href="salon-appointments.html">Lịch hẹn</a></li>
+            <li><a href="branch-management.html">Chi nhánh</a></li>
+            <li><a href="service-management.html">Dịch vụ</a></li>
+            <li><a href="stylist-management.html">Stylist</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <div class="container">
+        <h1>Quản lý Khách hàng</h1>
+        <div class="customer-management-container">
+          <div class="customer-search-block">
+            <h2>Tìm Kiếm Khách hàng</h2>
+            <form
+              id="search-form"
+              class="search-input-group"
+              style="display: flex; gap: 10px"
+            >
+              <input
+                type="text"
+                id="search-input"
+                placeholder="Nhập tên, SĐT hoặc email..."
+              />
+              <button type="submit" class="btn search-btn">
+                <i class="fas fa-search"></i> Tìm Kiếm
+              </button>
+              <button
+                type="button"
+                class="btn secondary-btn"
+                onclick="resetSearch()"
+              >
+                Hủy lọc
+              </button>
+            </form>
+          </div>
+
+          <div class="add-customer-block">
+            <h2 id="form-title">Thêm Khách hàng Mới</h2>
+            <div
+              id="add-customer-form-container"
+              class="add-customer-form-container"
+              style="display: block"
+            >
+              <form id="add-customer-form">
+                <input
+                  type="hidden"
+                  id="customer-id"
+                  name="customer_id"
+                  value=""
+                />
+                <div class="form-group">
+                  <label>Tên Khách hàng:</label
+                  ><input
+                    type="text"
+                    id="add-customer-name"
+                    name="customer_name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Số điện thoại:</label
+                  ><input
+                    type="tel"
+                    id="add-customer-phone"
+                    name="customer_phone"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label>Email:</label
+                  ><input
+                    type="email"
+                    id="add-customer-email"
+                    name="customer_email"
+                  />
+                </div>
+                <button type="submit" id="submit-btn" class="btn primary-btn">
+                  <i class="fas fa-save"></i> Lưu Khách hàng
+                </button>
+                <button
+                  type="button"
+                  class="btn secondary-btn"
+                  onclick="resetForm()"
+                >
+                  <i class="fas fa-times"></i> Làm mới
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div class="customer-list">
+            <h2>Danh sách Khách hàng</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Mã KH</th>
+                  <th>Tên Khách hàng</th>
+                  <th>Số điện thoại</th>
+                  <th>Email</th>
+                  <th>Ngày đăng ký</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="customer-table-body">
+                <tr>
+                  <td colspan="6" style="text-align: center">Đang tải...</td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              id="pagination-container"
+              style="text-align: center; margin-top: 20px"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let currentSearch = "";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        loadCustomers();
+
+        // Xử lý tìm kiếm khi bấm nút hoặc Enter
+        document
+          .getElementById("search-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            currentSearch = document.getElementById("search-input").value;
+            loadCustomers(1); // Tìm kiếm luôn quay về trang 1
+          });
+
+        // Xử lý tìm kiếm Real-time (vừa gõ vừa lọc)
+        document
+          .getElementById("search-input")
+          .addEventListener("input", function (e) {
+            currentSearch = e.target.value;
+            loadCustomers(1);
+          });
+
+        // Xử lý Form Thêm/Sửa
+        document
+          .getElementById("add-customer-form")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            const id = document.getElementById("customer-id").value;
+            const endpoint = id
+              ? "../../../backend/update_customer.php"
+              : "../../../backend/add_customer.php";
+
+            fetch(endpoint, { method: "POST", body: new FormData(this) })
+              .then((res) => res.json())
+              .then((res) => {
+                alert(res.message);
+                if (res.status === "success") {
+                  resetForm();
+                  loadCustomers();
+                }
+              });
+          });
+      });
+
+      // Hàm load dữ liệu kết hợp Phân trang Backend
+      function loadCustomers(page = 1) {
+        fetch(
+          `../../../backend/api/get_customers_admin.php?page=${page}&search=${encodeURIComponent(currentSearch)}`,
+        )
+          .then((res) => res.json())
+          .then((res) => {
+            const tbody = document.getElementById("customer-table-body");
+            tbody.innerHTML = "";
+            if (res.status === "success" && res.data.length > 0) {
+              res.data.forEach((c) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>KH${String(c.user_id).padStart(3, "0")}</td>
+                        <td>${c.full_name}</td>
+                        <td>${c.phone || "Chưa cập nhật"}</td>
+                        <td>${c.email || ""}</td>
+                        <td>${c.created_at}</td>
+                        <td>
+                            <button class="btn edit-btn" onclick="editCustomer(${c.user_id}, '${c.full_name}', '${c.phone}', '${c.email}')" style="background-color: #FFC107; color: #000;"><i class="fas fa-edit"></i> Sửa</button>
+                            <button class="btn delete-btn" onclick="deleteCustomer(${c.user_id})"><i class="fas fa-trash"></i> Xóa</button>
+                        </td>
+                    </tr>`;
+              });
+              // Vẽ nút phân trang
+              renderPagination(res.total_pages, res.current_page);
+            } else {
+              tbody.innerHTML =
+                "<tr><td colspan='6' style='text-align:center;'>Không tìm thấy khách hàng.</td></tr>";
+              renderPagination(0, 1);
+            }
+          });
+      }
+
+      // Hàm vẽ nút bấm phân trang [1] [2] [3]
+      function renderPagination(totalPages, currentPage) {
+        const container = document.getElementById("pagination-container");
+        container.innerHTML = "";
+
+        if (totalPages <= 1) return;
+
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement("button");
+          btn.innerText = i;
+          btn.style.cssText = `margin: 0 5px; padding: 6px 12px; cursor: pointer; border: 1px solid #28a745; border-radius: 4px; transition: 0.3s;`;
+
+          if (i === currentPage) {
+            btn.style.backgroundColor = "#28a745";
+            btn.style.color = "white";
+          } else {
+            btn.style.backgroundColor = "white";
+            btn.style.color = "#28a745";
+          }
+
+          btn.onclick = () => {
+            loadCustomers(i);
+            window.scrollTo({
+              top: document.querySelector(".customer-list").offsetTop - 100,
+              behavior: "smooth",
+            });
+          };
+          container.appendChild(btn);
+        }
+      }
+
+      function editCustomer(id, name, phone, email) {
+        document.getElementById("customer-id").value = id;
+        document.getElementById("add-customer-name").value = name;
+        document.getElementById("add-customer-phone").value = phone;
+        document.getElementById("add-customer-email").value = email;
+        document.getElementById("form-title").innerText = "Cập nhật Khách hàng";
+        document.getElementById("submit-btn").innerHTML =
+          '<i class="fas fa-check"></i> Cập nhật ngay';
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function deleteCustomer(id) {
+        if (confirm("Bạn có chắc muốn xóa khách hàng này?")) {
+          fetch(`../../../backend/delete_customer.php?id=${id}`)
+            .then((res) => res.json())
+            .then((res) => {
+              alert(res.message);
+              if (res.status === "success") loadCustomers();
+            });
+        }
+      }
+
+      function resetForm() {
+        document.getElementById("add-customer-form").reset();
+        document.getElementById("customer-id").value = "";
+        document.getElementById("form-title").innerText = "Thêm Khách hàng Mới";
+        document.getElementById("submit-btn").innerHTML =
+          '<i class="fas fa-save"></i> Lưu Khách hàng';
+      }
+
+      function resetSearch() {
+        document.getElementById("search-input").value = "";
+        currentSearch = "";
+        loadCustomers(1);
+      }
+    </script>
+    <script src="../../js/js-admin/admin-auth.js"></script>
+  </body>
+</html>

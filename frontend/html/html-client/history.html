@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lịch Sử Đặt Hẹn - Barber Shop</title>
+    <link rel="stylesheet" href="../../css/css-client/style.css" />
+    <link rel="stylesheet" href="../../css/css-client/history-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script>
+      if (!localStorage.getItem("user_id")) {
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="about.html">Về chúng tôi</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+          </ul>
+        </nav>
+        <div class="header-buttons desktop-buttons">
+          <a href="appointment.html" class="btn primary-btn">Đặt lịch hẹn</a>
+        </div>
+
+        <div
+          class="header-buttons desktop-buttons"
+          id="auth-menu-container"
+        ></div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <div class="container">
+        <h1>Lịch Sử Đặt Hẹn</h1>
+        <p class="customer-history-info">Danh sách các lịch hẹn của bạn:</p>
+
+        <div class="appointment-history-list" id="history-list-container">
+          <p style="text-align: center; color: #777">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      style="
+        background-color: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>Barber Shop. All rights reserved.</p>
+    </footer>
+    
+    <!-- ===== MODAL ĐÁNH GIÁ ===== -->
+    <div id="review-modal" style="
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    ">
+        <div style="
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        ">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Đánh Giá Dịch Vụ</h2>
+                <button onclick="closeReviewModal()" style="
+                    background: none;
+                    border: none;
+                    font-size: 24px;
+                    cursor: pointer;
+                    color: #999;
+                ">✕</button>
+            </div>
+
+            <form id="review-form">
+                <input type="hidden" id="review-appointment-id" />
+                <input type="hidden" id="review-stylist-id" />
+                
+                <!-- Thông tin Dịch vụ -->
+                <div style="
+                    background: #f5f5f5;
+                    padding: 15px;
+                    border-radius: 6px;
+                    margin-bottom: 20px;
+                ">
+                    <p style="margin: 5px 0;"><strong>Dịch vụ:</strong> <span id="review-service-name"></span></p>
+                    <p style="margin: 5px 0;"><strong>Thợ cắt:</strong> <span id="review-stylist-name"></span></p>
+                    <p style="margin: 5px 0;"><strong>Ngày:</strong> <span id="review-appointment-date"></span></p>
+                </div>
+
+                <!-- Rating Stars -->
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 10px; font-weight: bold;">
+                        Mức đánh giá <span style="color: red;">*</span>:
+                    </label>
+                    <div id="rating-stars" style="
+                        display: flex;
+                        gap: 10px;
+                        font-size: 40px;
+                    ">
+                        <span class="star" data-value="1" style="cursor: pointer; color: #ddd;">★</span>
+                        <span class="star" data-value="2" style="cursor: pointer; color: #ddd;">★</span>
+                        <span class="star" data-value="3" style="cursor: pointer; color: #ddd;">★</span>
+                        <span class="star" data-value="4" style="cursor: pointer; color: #ddd;">★</span>
+                        <span class="star" data-value="5" style="cursor: pointer; color: #ddd;">★</span>
+                    </div>
+                    <input type="hidden" id="review-rating" name="rating" value="0" />
+                    <p id="rating-text" style="margin-top: 10px; font-size: 14px; color: #999;">Vui lòng chọn mức đánh giá</p>
+                </div>
+
+                <!-- Comment -->
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">
+                        Bình luận (Tùy chọn):
+                    </label>
+                    <textarea 
+                        id="review-comment" 
+                        name="comment" 
+                        rows="4"
+                        placeholder="Chia sẻ trải nghiệm của bạn với thợ cắt này..."
+                        style="
+                            width: 100%;
+                            padding: 10px;
+                            border: 1px solid #ddd;
+                            border-radius: 4px;
+                            font-family: Arial;
+                            resize: vertical;
+                        "
+                    ></textarea>
+                    <p style="font-size: 12px; color: #999; margin-top: 5px;">Tối đa 500 ký tự</p>
+                </div>
+
+                <!-- Buttons -->
+                <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                    <button 
+                        type="button"
+                        onclick="closeReviewModal()"
+                        style="
+                            padding: 10px 20px;
+                            background: #e0e0e0;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        "
+                    >
+                        Hủy
+                    </button>
+                    <button 
+                        type="submit"
+                        style="
+                            padding: 10px 20px;
+                            background: #ff7f00;
+                            color: white;
+                            border: none;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            font-weight: bold;
+                        "
+                    >
+                        Gửi Đánh Giá
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-client/auth-menu.js"></script>
+
+    <script>
+// Thay thế hàm hiển thị danh sách lịch sử
+      document.addEventListener("DOMContentLoaded", function () {
+          const userId = localStorage.getItem("user_id");
+          const listContainer = document.getElementById("history-list-container");
+
+          fetch(`../../../backend/api/get_history.php?user_id=${userId}`)
+              .then((res) => res.json())
+              .then((res) => {
+                  if (res.status === "success" && res.data.length > 0) {
+                      let html = "";
+                      res.data.forEach((app) => {
+                          let statusText = "Chờ xác nhận";
+                          let statusColor = "#f39c12";
+                          if (app.status === "confirmed") {
+                              statusText = "Đã xác nhận";
+                              statusColor = "#27ae60";
+                          }
+                          if (app.status === "completed") {
+                              statusText = "Đã hoàn thành";
+                              statusColor = "#2980b9";
+                          }
+                          if (app.status === "cancelled") {
+                              statusText = "Đã hủy";
+                              statusColor = "#c0392b";
+                          }
+
+                          let price = new Intl.NumberFormat("vi-VN").format(
+                              app.total_price,
+                          );
+
+                          html += `
+                              <div class="appointment-history-item" style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 8px;">
+                                  <div class="appointment-details-card">
+                                      <p><strong>Salon:</strong> ${app.branch_name}</p>
+                                      <p><strong>Dịch Vụ:</strong> ${app.service_name} (${price} VNĐ)</p>
+                                      <p><strong>Thợ Cắt:</strong> ${app.stylist_name || "Chưa sắp xếp"}</p>
+                                      <p><strong>Thời Gian:</strong> ${app.appointment_date}, ${app.appointment_time}</p>
+                                      <p><strong>Ghi Chú:</strong> ${app.notes || "Không có ghi chú"}</p>
+                                      <p class="appointment-status-card" style="color: ${statusColor}; font-weight: bold;">
+                                          Trạng Thái: ${statusText}
+                                      </p>
+                                  </div>
+                                  <div style="margin-top: 15px; display: flex; gap: 10px;">
+                          `;
+
+                          // Nút Hủy (nếu chờ xác nhận)
+                          if (app.status === "pending") {
+                              html += `
+                                  <a href="javascript:void(0)" onclick="cancelAppointment(${app.appointment_id})" 
+                                    class="btn btn-cancel-appointment" 
+                                    style="background-color: #e74c3c; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px;">
+                                      <i class="fas fa-times"></i> Hủy Lịch
+                                  </a>
+                              `;
+                          }
+
+                          // Nút Đánh Giá (nếu đã hoàn thành và chưa đánh giá)
+                          if (app.status === "completed") {
+                              html += `
+                                  <a href="javascript:void(0)" 
+                                    onclick="openReviewModal(
+                                        ${app.appointment_id}, 
+                                        '${app.service_name}', 
+                                        '${app.stylist_name || 'Chưa xác định'}',
+                                        '${app.appointment_date}',
+                                        ${app.stylist_id}
+                                    )" 
+                                    class="btn btn-review" 
+                                    style="background-color: #27ae60; color: white; padding: 8px 15px; text-decoration: none; border-radius: 4px;">
+                                      <i class="fas fa-star"></i> Đánh Giá
+                                  </a>
+                              `;
+                          }
+
+                          html += `
+                                  </div>
+                              </div>
+                          `;
+                      });
+                      listContainer.innerHTML = html;
+                  } else {
+                      listContainer.innerHTML =
+                          "<p style='text-align: center; color: #777;'>Bạn chưa có lịch hẹn nào.</p>";
+                  }
+              })
+              .catch((err) => {
+                  listContainer.innerHTML =
+                      "<p style='color: red;'>Lỗi tải dữ liệu lịch sử!</p>";
+              });
+      });
+
+      // Đã sửa lại hàm cancelAppointment dùng fetch API để chạy ngầm
+      function cancelAppointment(id) {
+        if (confirm("Bạn có chắc chắn muốn hủy lịch hẹn này?")) {
+          fetch(`../../../backend/cancel_appointment_client.php?id=${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+              alert(data.message); // Hiển thị thông báo (Đã hủy thành công)
+              if (data.status === "success") {
+                window.location.reload(); // Tự động load lại trang để cập nhật trạng thái
+              }
+            })
+            .catch((error) => {
+              console.error("Lỗi khi hủy lịch:", error);
+              alert(
+                "Có lỗi xảy ra khi kết nối đến máy chủ. Vui lòng thử lại sau.",
+              );
+            });
+        }
+      }
+
+      // ===== XỬ LÝ RATING STARS =====
+      function initializeRatingStars() {
+          const stars = document.querySelectorAll('.star');
+          const ratingInput = document.getElementById('review-rating');
+          const ratingText = document.getElementById('rating-text');
+          
+          const ratingLabels = {
+              1: 'Tệ - Không hài lòng',
+              2: 'Không tốt - Tạm được',
+              3: 'Bình thường - Chấp nhận được',
+              4: 'Tốt - Rất hài lòng',
+              5: 'Tuyệt vời - Xuất sắc'
+          };
+          
+          stars.forEach(star => {
+              star.addEventListener('click', function() {
+                  const value = this.dataset.value;
+                  ratingInput.value = value;
+                  
+                  // Cập nhật màu sắc stars
+                  stars.forEach(s => {
+                      if (s.dataset.value <= value) {
+                          s.style.color = '#ff7f00';
+                      } else {
+                          s.style.color = '#ddd';
+                      }
+                  });
+                  
+                  // Cập nhật text
+                  ratingText.innerText = `${value}/5 - ${ratingLabels[value]}`;
+              });
+              
+              // Hover effect
+              star.addEventListener('mouseover', function() {
+                  const value = this.dataset.value;
+                  stars.forEach(s => {
+                      if (s.dataset.value <= value) {
+                          s.style.color = '#ff7f00';
+                          s.style.transform = 'scale(1.1)';
+                      } else {
+                          s.style.color = '#ddd';
+                          s.style.transform = 'scale(1)';
+                      }
+                  });
+              });
+          });
+          
+          document.getElementById('rating-stars').addEventListener('mouseleave', function() {
+              const value = ratingInput.value;
+              stars.forEach(s => {
+                  if (value > 0 && s.dataset.value <= value) {
+                      s.style.color = '#ff7f00';
+                  } else {
+                      s.style.color = '#ddd';
+                  }
+                  s.style.transform = 'scale(1)';
+              });
+          });
+      }
+
+      // ===== MỞ MODAL ĐÁNH GIÁ =====
+      function openReviewModal(appointmentId, serviceName, stylistName, appointmentDate, stylistId) {
+          document.getElementById('review-appointment-id').value = appointmentId;
+          document.getElementById('review-stylist-id').value = stylistId;
+          document.getElementById('review-service-name').innerText = serviceName;
+          document.getElementById('review-stylist-name').innerText = stylistName;
+          document.getElementById('review-appointment-date').innerText = appointmentDate;
+          document.getElementById('review-rating').value = 0;
+          document.getElementById('review-comment').value = '';
+          
+          // Reset stars
+          document.querySelectorAll('.star').forEach(s => {
+              s.style.color = '#ddd';
+          });
+          document.getElementById('rating-text').innerText = 'Vui lòng chọn mức đánh giá';
+          
+          document.getElementById('review-modal').style.display = 'flex';
+      }
+
+      // ===== ĐÓNG MODAL =====
+      function closeReviewModal() {
+          document.getElementById('review-modal').style.display = 'none';
+      }
+
+      // ===== GỬI ĐÁNH GIÁ =====
+      document.addEventListener('DOMContentLoaded', function() {
+          // ... (code cũ giữ nguyên)
+          
+          // Khởi tạo rating stars
+          initializeRatingStars();
+          
+          // Xử lý submit form review
+          document.getElementById('review-form').addEventListener('submit', function(e) {
+              e.preventDefault();
+              
+              const rating = document.getElementById('review-rating').value;
+              if (rating === '0' || rating === 0) {
+                  alert('Vui lòng chọn mức đánh giá');
+                  return;
+              }
+              
+              const formData = new FormData();
+              formData.append('appointment_id', document.getElementById('review-appointment-id').value);
+              formData.append('customer_id', localStorage.getItem('user_id'));
+              formData.append('stylist_id', document.getElementById('review-stylist-id').value);
+              formData.append('rating', rating);
+              formData.append('comment', document.getElementById('review-comment').value);
+              
+              fetch('../../../backend/api/reviews.php?action=add', {
+                  method: 'POST',
+                  body: formData
+              })
+              .then(res => res.json())
+              .then(res => {
+                  alert(res.message);
+                  if (res.status === 'success') {
+                      closeReviewModal();
+                      // Reload danh sách lịch sử
+                      window.location.reload();
+                  }
+              })
+              .catch(err => alert('Lỗi: ' + err.message));
+          });
+      });
+
+      // Đóng modal khi click ngoài
+      document.getElementById('review-modal')?.addEventListener('click', function(e) {
+          if (e.target === this) {
+              closeReviewModal();
+          }
+      });
+
+    </script>
+  </body>
+</html>

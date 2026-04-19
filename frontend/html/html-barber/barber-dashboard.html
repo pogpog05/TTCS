@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cổng thông tin Thợ Cắt Tóc - Barber Shop</title>
+    <link rel="stylesheet" href="../../css/css-admin/style.css" />
+    <link
+      rel="stylesheet"
+      href="../../css/css-barber/barber-dashboard-styles.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script>
+      const userId = localStorage.getItem("user_id");
+      const userRole = (localStorage.getItem("user_role") || "")
+        .toLowerCase()
+        .trim();
+      if (!userId || userRole !== "stylist") {
+        alert("Cảnh báo: Bạn không có quyền truy cập trang này!");
+        window.location.href = "../html-client/login.html";
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div
+        class="container header-container"
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 0;
+        "
+      >
+        <div class="logo">
+          <img
+            src="../../image/logo.png"
+            alt="Barber Shop Logo"
+            style="height: 50px"
+          />
+        </div>
+        <div
+          class="user-account"
+          style="display: flex; align-items: center; gap: 15px"
+        >
+          <a
+            href="#"
+            class="user-icon-link"
+            style="color: white; text-decoration: none; font-weight: bold"
+            ><i class="fas fa-user-tie"></i
+            ><span id="barber-name-display">Xin chào, Đang tải...</span></a
+          >
+          <a
+            href="#"
+            id="barber-logout-btn"
+            class="logout-btn"
+            style="
+              color: #ff4d4d;
+              text-decoration: none;
+              font-weight: bold;
+              padding: 5px 10px;
+              border: 1px solid #ff4d4d;
+              border-radius: 4px;
+            "
+            ><i class="fas fa-sign-out-alt"></i> Thoát</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <main class="barber-container">
+      <div
+        class="tab-menu"
+        style="display: flex; gap: 10px; margin-bottom: 20px"
+      >
+        <button class="tab-btn active" id="tab-appointments-btn">
+          <i class="fas fa-calendar-alt"></i> Lịch Cắt Của Tôi
+        </button>
+        <button class="tab-btn" id="tab-leave-btn">
+          <i class="fas fa-bed"></i> Xin Nghỉ Phép
+        </button>
+        <button class="tab-btn" id="tab-history-btn">
+          <i class="fas fa-history"></i> Lịch Sử Nghỉ Phép
+        </button>
+      </div>
+
+      <section id="appointments-section" class="tab-content active">
+        <h2>Lịch Hẹn Sắp Tới</h2>
+        <div class="table-responsive">
+          <table class="barber-table">
+            <thead>
+              <tr>
+                <th>Ngày</th>
+                <th>Giờ</th>
+                <th>Khách Hàng</th>
+                <th>SĐT</th>
+                <th>Dịch Vụ</th>
+                <th>Ghi chú</th>
+                <th>Trạng Thái</th>
+              </tr>
+            </thead>
+            <tbody id="schedule-table-body">
+              <tr>
+                <td colspan="7" style="text-align: center">Đang tải...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="leave-section" class="tab-content">
+        <h2>Đăng Ký Nghỉ Phép</h2>
+        <div
+          class="leave-form-container"
+          style="
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+          "
+        >
+          <form id="leave-request-form">
+            <div style="display: flex; gap: 15px; margin-bottom: 15px">
+              <div class="form-group" style="flex: 1">
+                <label>Từ ngày <span class="required">*</span>:</label
+                ><input
+                  type="date"
+                  id="start-date"
+                  name="start_date"
+                  required
+                />
+              </div>
+              <div class="form-group" style="flex: 1">
+                <label>Đến ngày <span class="required">*</span>:</label
+                ><input type="date" id="end-date" name="end_date" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Loại nghỉ phép <span class="required">*</span>:</label>
+              <select id="leave-type" name="leave_type" required>
+                <option value="">-- Chọn loại --</option>
+                <option value="Ốm đau">Ốm đau / Vấn đề sức khỏe</option>
+                <option value="Việc gia đình">Việc bận gia đình</option>
+                <option value="Khác">Lý do khác</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Chi tiết lý do (Tùy chọn):</label
+              ><textarea
+                id="leave-reason"
+                name="leave_reason"
+                rows="4"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="submit-btn"
+              id="submit-leave-btn"
+              style="
+                background: #ff7f00;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+              "
+            >
+              Gửi Yêu Cầu
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section id="history-section" class="tab-content">
+        <h2>Lịch Sử Đơn Xin Nghỉ</h2>
+        <div class="table-responsive">
+          <table class="barber-table">
+            <thead>
+              <tr>
+                <th>Ngày nộp đơn</th>
+                <th>Thời gian xin nghỉ</th>
+                <th>Loại nghỉ</th>
+                <th>Lý do</th>
+                <th>Trạng Thái</th>
+              </tr>
+            </thead>
+            <tbody id="leave-history-table-body">
+              <tr>
+                <td colspan="5" style="text-align: center">
+                  Đang tải lịch sử...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="../../js/js-barber/barber-dashboard-script.js"></script>
+  </body>
+</html>

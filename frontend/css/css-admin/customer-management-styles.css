@@ -1,0 +1,500 @@
+/* --- Style cho trang Quản lý Khách hàng --- */
+
+/* Style cho nội dung chính của trang (để tạo khoảng trống cho header cố định) */
+.page-main {
+  padding-top: 100px; /* Khoảng trống để tránh header trên desktop (Điều chỉnh nếu cần) */
+  padding-bottom: 40px; /* Padding dưới */
+  background-color: #f8f8f8; /* Màu nền nhẹ cho trang */
+  color: #333; /* Màu chữ mặc định cho nội dung trang */
+}
+
+.customer-list {
+  margin: 20px auto;
+  max-width: fit-content;
+}
+/* Style cho heading chính của trang */
+.page-main h1 {
+  text-align: center;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 20px; /* Khoảng cách dưới tiêu đề chính */
+  font-size: 2.5em;
+}
+
+/* Container chính cho nội dung quản lý khách hàng */
+.customer-management-container {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  /* Thêm style để căn giữa container này */
+  max-width: 1000px; /* Đặt chiều rộng tối đa cho bảng */
+  margin-left: auto; /* Căn giữa */
+  margin-right: auto; /* Căn giữa */
+}
+
+/* --- Style cho Khối Tìm kiếm Khách hàng --- */
+.customer-search-block {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.customer-search-block h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+.customer-search-block .search-input-group {
+  display: flex; /* Sử dụng flexbox để xếp input và button ngang hàng */
+  gap: 10px; /* Khoảng cách giữa input và button */
+  max-width: 500px; /* Giới hạn chiều rộng của nhóm tìm kiếm */
+  margin: 0 auto; /* Căn giữa nhóm tìm kiếm */
+  align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.customer-search-block input[type="text"] {
+  flex-grow: 1; /* Cho phép input giãn nở để lấp đầy không gian */
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+.customer-search-block .btn.search-btn {
+  padding: 8px 15px;
+  font-size: 1em;
+  /* Sử dụng màu nút tìm kiếm từ appointment-styles.css hoặc style.css */
+  background-color: #5cb85c; /* Màu xanh lá cây */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.customer-search-block .btn.search-btn:hover {
+  background-color: #4cae4c;
+}
+/* ----------------------------------------- */
+
+/* Style cho khối thêm khách hàng mới */
+.add-customer-block {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.add-customer-block h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+/* --- Style cho CONTAINER BỌC FORM THÊM KHÁCH HÀNG (Ẩn ban đầu) --- */
+.add-customer-form-container {
+  display: none; /* Ẩn form ban đầu */
+  margin-top: 20px; /* Khoảng cách trên form khi nó hiển thị */
+  background-color: #fff; /* Nền trắng cho form */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* Giới hạn chiều rộng của form */
+  margin-left: auto;
+  margin-right: auto; /* Căn giữa form */
+}
+
+/* Class để hiển thị form thêm khách hàng (sẽ được thêm bằng JS) */
+.add-customer-form-container.visible {
+  display: block; /* Hiển thị form dưới dạng block */
+}
+
+/* Style cho form thêm khách hàng */
+.add-customer-block form {
+  display: flex; /* Sử dụng flexbox */
+  flex-direction: column; /* Xếp các mục theo cột (chiều dọc) */
+  gap: 15px; /* Khoảng cách giữa các mục form */
+  max-width: none; /* Form chiếm toàn bộ chiều rộng của container bọc form */
+  margin: 0;
+}
+
+/* Style chung cho các nhóm form (label + input) trong form thêm khách hàng */
+.add-customer-block .form-group {
+  margin-bottom: 0; /* Loại bỏ margin-bottom mặc định */
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+}
+
+.add-customer-block .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.add-customer-block .form-group input[type="text"],
+.add-customer-block .form-group input[type="tel"],
+.add-customer-block .form-group input[type="email"] {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+}
+
+/* Style cho nút submit và nút hủy trong form thêm khách hàng */
+.add-customer-block form .btn {
+  padding: 8px 15px;
+  font-size: 1em;
+  margin-top: 10px; /* Khoảng cách trên nút */
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+}
+
+.add-customer-block form #cancel-add-customer-form-btn {
+  margin-right: 0;
+}
+/* ----------------------------------------- */
+
+/* --- Style cho Khối Chỉnh sửa Khách hàng (Ẩn ban đầu) --- */
+.edit-customer-form-container {
+  display: none; /* Ẩn form chỉnh sửa ban đầu */
+  margin-top: 20px; /* Khoảng cách trên form khi nó hiển thị */
+  background-color: #fff; /* Nền trắng cho form */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px; /* Giới hạn chiều rộng của form */
+  margin-left: auto;
+  margin-right: auto; /* Căn giữa form */
+}
+
+/* Class để hiển thị form chỉnh sửa (sẽ được thêm bằng JS) */
+.edit-customer-form-container.visible {
+  display: block; /* Hiển thị form dưới dạng block */
+}
+
+.edit-customer-form-container h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5em;
+  text-align: center; /* Căn giữa tiêu đề form */
+}
+
+/* Style cho form chỉnh sửa */
+.edit-customer-form-container form {
+  display: flex; /* Sử dụng flexbox */
+  flex-direction: column; /* Xếp các mục theo cột (chiều dọc) */
+  gap: 15px; /* Khoảng cách giữa các mục form */
+}
+
+/* Style chung cho các nhóm form (label + input) trong form chỉnh sửa */
+.edit-customer-form-container .form-group {
+  margin-bottom: 0; /* Loại bỏ margin-bottom mặc định */
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+}
+
+.edit-customer-form-container .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+  font-size: 0.9em;
+}
+
+.edit-customer-form-container .form-group input[type="text"],
+.edit-customer-form-container .form-group input[type="tel"],
+.edit-customer-form-container .form-group input[type="email"],
+.edit-customer-form-container .form-group input[type="text"][readonly] {
+  /* Style cho input readonly */
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1em;
+  font-family: "Arial", sans-serif;
+  box-sizing: border-box;
+  background-color: #f8f8f8; /* Nền xám cho input readonly */
+  cursor: not-allowed; /* Con trỏ không cho phép nhập */
+}
+
+/* Style cho nút submit và nút hủy trong form chỉnh sửa */
+.edit-customer-form-container form .btn {
+  padding: 8px 15px;
+  font-size: 1em;
+  margin-top: 10px; /* Khoảng cách trên nút */
+  margin-right: 10px; /* Khoảng cách giữa các nút */
+}
+
+.edit-customer-form-container form #cancel-edit-customer-form-btn {
+  margin-right: 0;
+}
+/* ----------------------------------------- */
+
+/* Style cho bảng danh sách khách hàng */
+.customer-list {
+  margin-top: 30px; /* Khoảng cách trên bảng danh sách */
+}
+
+.customer-list h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: 1.3em;
+}
+
+.customer-list table {
+  width: 100%; /* Bảng chiếm toàn bộ chiều rộng container */
+  border-collapse: collapse; /* Loại bỏ khoảng cách giữa các border */
+  overflow-x: auto; /* Thêm cuộn ngang cho bảng trên màn hình nhỏ */
+  display: block; /* Cần display block cho overflow-x hoạt động */
+}
+
+.customer-list thead {
+  display: table-header-group; /* Đảm bảo thead hiển thị đúng */
+}
+
+.customer-list th,
+.customer-list td {
+  padding: 12px;
+  text-align: left; /* Căn trái nội dung trong ô */
+  border-bottom: 1px solid #ddd; /* Đường kẻ dưới mỗi hàng */
+}
+
+.customer-list th {
+  background-color: #f2f2f2; /* Nền xám cho header bảng */
+  font-weight: bold;
+  color: #333;
+}
+
+.customer-list tbody tr:hover {
+  background-color: #f9f9f9; /* Nền nhạt khi di chuột qua hàng */
+}
+
+/* Style cho cột hành động */
+.customer-list td:last-child {
+  text-align: center; /* Căn giữa các nút hành động */
+  white-space: nowrap; /* Ngăn các nút xuống dòng */
+}
+
+.customer-list td .btn {
+  padding: 5px 10px;
+  font-size: 0.9em;
+  margin: 0 5px; /* Khoảng cách giữa các nút */
+}
+
+/* Style cho nút chi tiết */
+.customer-list .secondary-btn {
+  background-color: #007bff; /* Màu xanh dương */
+  color: #fff;
+  border: none;
+}
+.customer-list .secondary-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Style cho nút sửa */
+.customer-list .edit-btn {
+  background-color: #ffc107; /* Màu vàng */
+  color: #212529;
+  border: none;
+}
+.customer-list .edit-btn:hover {
+  background-color: #e0a800;
+}
+
+/* Style cho nút xóa */
+.customer-list .delete-btn {
+  background-color: #dc3545; /* Màu đỏ */
+  color: #fff;
+  border: none;
+}
+.customer-list .delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* --- Responsive adjustments for Customer Management page --- */
+
+@media screen and (max-width: 1024px) {
+  .customer-management-container {
+    max-width: 95%; /* Cho phép container rộng hơn trên tablet */
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-main {
+    padding-top: 70px; /* Điều chỉnh padding top nếu header mobile nhỏ hơn */
+    padding-bottom: 30px;
+  }
+  .page-main h1 {
+    font-size: 2em;
+    margin-bottom: 15px;
+  }
+  .customer-management-container {
+    padding: 15px;
+    max-width: 95%; /* Đảm bảo chiếm chiều rộng trên mobile */
+  }
+  .add-customer-block h2,
+  .customer-list h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  /* Điều chỉnh khối tìm kiếm trên mobile */
+  .customer-search-block .search-input-group {
+    flex-direction: column; /* Xếp input và button theo cột */
+    gap: 10px;
+    max-width: none; /* Bỏ giới hạn chiều rộng */
+    margin: 0; /* Bỏ căn giữa */
+    align-items: stretch; /* Kéo giãn các mục */
+  }
+  .customer-search-block input[type="text"],
+  .customer-search-block .btn.search-btn {
+    width: 100%; /* Chiếm toàn bộ chiều rộng */
+  }
+
+  /* Điều chỉnh form thêm khách hàng trên mobile */
+  .add-customer-form-container {
+    max-width: none; /* Bỏ giới hạn chiều rộng trên mobile */
+    margin: 0; /* Bỏ căn giữa trên mobile */
+    padding: 15px; /* Giảm padding */
+  }
+  .add-customer-block form {
+    gap: 10px;
+  }
+  .add-customer-block .form-group label {
+    font-size: 0.85em;
+  }
+  .add-customer-block .form-group input[type="text"],
+  .add-customer-block .form-group input[type="tel"],
+  .add-customer-block .form-group input[type="email"] {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+  .add-customer-block form .btn {
+    width: 100%;
+    margin-top: 10px;
+    margin-right: 0;
+  }
+  .add-customer-block form .primary-btn {
+    margin-bottom: 10px;
+  }
+
+  /* Điều chỉnh form chỉnh sửa trên mobile */
+  .edit-customer-form-container {
+    max-width: none; /* Bỏ giới hạn chiều rộng trên mobile */
+    margin: 0; /* Bỏ căn giữa trên mobile */
+    padding: 15px; /* Giảm padding */
+  }
+  .edit-customer-form-container h2 {
+    font-size: 1.3em;
+    margin-bottom: 15px;
+  }
+  .edit-customer-form-container form {
+    gap: 10px;
+  }
+  .edit-customer-form-container .form-group label {
+    font-size: 0.85em;
+  }
+  .edit-customer-form-container .form-group input[type="text"],
+  .edit-customer-form-container .form-group input[type="tel"],
+  .edit-customer-form-container .form-group input[type="email"],
+  .edit-customer-form-container .form-group input[type="text"][readonly] {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+  .edit-customer-form-container form .btn {
+    width: 100%;
+    margin-top: 10px;
+    margin-right: 0;
+  }
+  .edit-customer-form-container form .primary-btn {
+    margin-bottom: 10px;
+  }
+
+  .customer-list th,
+  .customer-list td {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+  .customer-list td .btn {
+    padding: 4px 8px;
+    font-size: 0.8em;
+    margin: 0 3px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .page-main h1 {
+    font-size: 1.8em;
+  }
+  .customer-management-container {
+    padding: 10px;
+  }
+  .add-customer-block h2,
+  .customer-list h2 {
+    font-size: 1.1em;
+  }
+  /* Điều chỉnh khối tìm kiếm trên màn hình rất nhỏ */
+  .customer-search-block .search-input-group {
+    gap: 8px;
+  }
+
+  /* Điều chỉnh form thêm khách hàng trên màn hình rất nhỏ */
+  .add-customer-form-container {
+    padding: 10px;
+  }
+  .add-customer-block h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  .add-customer-block form {
+    gap: 8px;
+  }
+  .add-customer-block .form-group label {
+    font-size: 0.8em;
+  }
+  .add-customer-block .form-group input[type="text"],
+  .add-customer-block .form-group input[type="tel"],
+  .add-customer-block .form-group input[type="email"] {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+  .add-customer-block form .btn {
+    font-size: 0.9em;
+    padding: 6px 12px;
+  }
+
+  /* Điều chỉnh form chỉnh sửa trên màn hình rất nhỏ */
+  .edit-customer-form-container {
+    padding: 10px;
+  }
+  .edit-customer-form-container h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+  }
+  .edit-customer-form-container form {
+    gap: 8px;
+  }
+  .edit-customer-form-container .form-group label {
+    font-size: 0.8em;
+  }
+  .edit-customer-form-container .form-group input[type="text"],
+  .edit-customer-form-container .form-group input[type="tel"],
+  .edit-customer-form-container .form-group input[type="email"],
+  .edit-customer-form-container .form-group input[type="text"][readonly] {
+    padding: 6px;
+    font-size: 0.8em;
+  }
+  .edit-customer-form-container form .btn {
+    font-size: 0.9em;
+    padding: 6px 12px;
+  }
+}

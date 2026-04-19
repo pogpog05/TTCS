@@ -1,0 +1,115 @@
+/* --- Giao diện Stylist: Đơn giản & Hiệu quả --- */
+.page-main {
+  padding-top: 100px;
+  padding-bottom: 40px;
+  background-color: #f8f9fa;
+}
+
+.stylist-management-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* KHỐI ĐƠN NGHỈ PHÉP - GIỮ NGUYÊN PHONG CÁCH CŨ */
+.leave-requests-block {
+  background: #fffaf0;
+  padding: 20px;
+  border-left: 5px solid #ff7f00;
+  border-radius: 4px;
+  margin-bottom: 30px;
+}
+
+.leave-requests-block h2 {
+  color: #ff7f00;
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+}
+
+/* TABLE CHUNG */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+th {
+  background: #f4f4f4;
+  font-weight: bold;
+}
+
+/* FORM THÊM/SỬA (Kiểu như trang dịch vụ) */
+.add-stylist-form-container {
+  display: none;
+  margin: 20px 0;
+  padding: 20px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* PHÂN TRANG */
+#pagination-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#pagination-container button {
+  margin: 0 4px;
+  padding: 6px 14px;
+  cursor: pointer;
+  border: 1px solid #ff7f00;
+  background: #fff;
+  color: #ff7f00;
+  border-radius: 4px;
+}
+
+#pagination-container button.active {
+  background: #ff7f00;
+  color: #fff;
+}
+
+/* BADGE TRẠNG THÁI */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: bold;
+}
+.status-active {
+  background: #e6fffa;
+  color: #234e52;
+}
+.status-leave {
+  background: #fffaf0;
+  color: #744210;
+}
+.status-inactive {
+  background: #fff5f5;
+  color: #742a2a;
+}

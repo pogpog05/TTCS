@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thông Tin Của Tôi - Barber Shop</title>
+    <link rel="stylesheet" href="../../css/css-client/style.css" />
+    <link rel="stylesheet" href="../../css/css-client/my-profile-styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <script>
+      if (!localStorage.getItem("user_id")) {
+        window.location.href = "login.html";
+      }
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-container">
+        <div class="logo">
+          <img src="../../image/logo.png" alt="Barber Shop Logo" />
+        </div>
+        <nav class="desktop-nav">
+          <ul>
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="about.html">Về chúng tôi</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+          </ul>
+        </nav>
+        <div class="header-buttons desktop-buttons">
+          <a href="appointment.html" class="btn primary-btn">Đặt lịch hẹn</a>
+        </div>
+
+        <div
+          class="header-buttons desktop-buttons"
+          id="auth-menu-container"
+        ></div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <div class="container">
+        <div class="profile-card">
+          <h2>Thông Tin Cá Nhân Của Tôi</h2>
+          <form id="profile-form">
+            <div class="form-group">
+              <label>Tên Khách hàng:</label>
+              <input
+                type="text"
+                id="profile-name"
+                readonly
+                style="background-color: #f0f0f0"
+                value="Đang tải..."
+              />
+            </div>
+            <div class="form-group">
+              <label>Số điện thoại:</label>
+              <input
+                type="tel"
+                id="profile-phone"
+                readonly
+                style="background-color: #f0f0f0"
+                value="Đang tải..."
+              />
+            </div>
+            <div class="form-group">
+              <label>Email:</label>
+              <input
+                type="email"
+                id="profile-email"
+                readonly
+                style="background-color: #f0f0f0"
+                value="Đang tải..."
+              />
+            </div>
+            <div class="form-group">
+              <label>Ngày đăng ký:</label>
+              <input
+                type="text"
+                id="profile-date"
+                readonly
+                style="background-color: #f0f0f0"
+                value="Đang tải..."
+              />
+            </div>
+            <div class="profile-actions">
+              <button type="button" id="edit-profile-btn" class="btn-edit">
+                <i class="fas fa-pen"></i>
+                Chỉnh sửa
+              </button>
+              <button
+                type="submit"
+                id="save-profile-btn"
+                class="btn-update hidden"
+              >
+                <i class="fas fa-save"></i>
+                Lưu thay đổi
+              </button>
+              <button
+                type="button"
+                id="cancel-profile-btn"
+                class="btn-cancel hidden"
+              >
+                <i class="fas fa-times"></i>
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer
+      style="
+        background-color: #1a1a1a;
+        color: #fff;
+        text-align: center;
+        padding: 20px;
+      "
+    >
+      <p>Barber Shop. All rights reserved.</p>
+    </footer>
+    <script src="../../js/js-client/script.js"></script>
+    <script src="../../js/js-client/auth-menu.js"></script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const userId = localStorage.getItem("user_id");
+        const profileForm = document.getElementById("profile-form");
+        const editBtn = document.getElementById("edit-profile-btn");
+        const saveBtn = document.getElementById("save-profile-btn");
+        const cancelBtn = document.getElementById("cancel-profile-btn");
+        const nameInput = document.getElementById("profile-name");
+        const phoneInput = document.getElementById("profile-phone");
+        const emailInput = document.getElementById("profile-email");
+        const dateInput = document.getElementById("profile-date");
+        const authMethod = (localStorage.getItem("auth_method") || "password")
+          .toLowerCase()
+          .trim();
+        const isGoogleAccount = authMethod === "google";
+        const cachedFullName = localStorage.getItem("full_name") || "";
+        const cachedEmail = localStorage.getItem("user_email") || "";
+
+        if (isGoogleAccount) {
+          emailInput.readOnly = true;
+          emailInput.disabled = true;
+          emailInput.title = "Tài khoản Google không thể đổi email từ đây";
+        }
+
+        let originalProfile = {
+          full_name: "",
+          phone: "",
+          email: "",
+          created_at: "",
+        };
+
+        function loadProfile() {
+          return fetch(`../../../backend/api/get_profile.php?user_id=${userId}`)
+            .then((res) => res.json())
+            .then((res) => {
+              if (res.status === "success") {
+                fillProfile(res.data);
+              } else {
+                fillProfile({
+                  full_name: cachedFullName,
+                  email: cachedEmail,
+                  phone: "",
+                  created_at: "",
+                });
+              }
+            });
+        }
+
+        function setEditMode(isEditing) {
+          [nameInput, phoneInput, emailInput].forEach((input) => {
+            if (isGoogleAccount && input === emailInput) {
+              input.readOnly = true;
+              input.disabled = true;
+              input.style.backgroundColor = "#f0f0f0";
+              input.style.cursor = "not-allowed";
+              return;
+            }
+
+            input.readOnly = !isEditing;
+            input.style.backgroundColor = isEditing ? "#fff" : "#f0f0f0";
+            input.style.cursor = isEditing ? "text" : "not-allowed";
+          });
+
+          if (isEditing) {
+            phoneInput.value = originalProfile.phone || "";
+            emailInput.value = originalProfile.email || cachedEmail || "";
+          } else {
+            phoneInput.value = originalProfile.phone || "Chưa cập nhật";
+            emailInput.value = originalProfile.email || "Chưa cập nhật";
+          }
+
+          editBtn.classList.toggle("hidden", isEditing);
+          saveBtn.classList.toggle("hidden", !isEditing);
+          cancelBtn.classList.toggle("hidden", !isEditing);
+          dateInput.readOnly = true;
+        }
+
+        function fillProfile(data) {
+          originalProfile = {
+            full_name: data.full_name || cachedFullName || "",
+            phone: data.phone || "",
+            email: data.email || cachedEmail || "",
+            created_at: data.created_at || "",
+          };
+
+          nameInput.value = originalProfile.full_name || "Chưa cập nhật";
+          phoneInput.value = originalProfile.phone || "Chưa cập nhật";
+          emailInput.value = originalProfile.email || "Chưa cập nhật";
+          dateInput.value = originalProfile.created_at || "Chưa cập nhật";
+
+          if (isGoogleAccount) {
+            const noteId = "google-email-note";
+            let noteElement = document.getElementById(noteId);
+            if (!noteElement) {
+              noteElement = document.createElement("p");
+              noteElement.id = noteId;
+              noteElement.className = "google-email-note";
+              emailInput.parentElement.appendChild(noteElement);
+            }
+            noteElement.textContent =
+              "Email được đồng bộ từ tài khoản Google và không thể chỉnh sửa.";
+          }
+        }
+
+        // GỌI API LẤY THÔNG TIN
+        loadProfile().catch((err) => console.error("Lỗi tải profile:", err));
+
+        editBtn.addEventListener("click", function () {
+          setEditMode(true);
+        });
+
+        cancelBtn.addEventListener("click", function () {
+          fillProfile(originalProfile);
+          setEditMode(false);
+        });
+
+        profileForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+
+          const submittedPhone = phoneInput.value.trim();
+          const submittedEmail = isGoogleAccount
+            ? originalProfile.email
+            : emailInput.value.trim();
+
+          const payload = {
+            customer_id: userId,
+            customer_name: nameInput.value.trim(),
+            customer_phone: submittedPhone || originalProfile.phone,
+            customer_email: submittedEmail || originalProfile.email,
+            auth_method: authMethod,
+          };
+
+          if (!payload.customer_name) {
+            alert("Vui lòng nhập họ và tên.");
+            return;
+          }
+
+          fetch("../../../backend/update_customer.php", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              if (res.status === "success") {
+                localStorage.setItem(
+                  "full_name",
+                  res.data.full_name || payload.customer_name,
+                );
+                localStorage.setItem(
+                  "user_email",
+                  res.data.email || payload.customer_email || "",
+                );
+                setEditMode(false);
+                return loadProfile().then(() => {
+                  alert(res.message || "Cập nhật thành công!");
+                });
+              } else {
+                alert(res.message || "Cập nhật thất bại!");
+              }
+            })
+            .catch((err) => {
+              console.error("Lỗi cập nhật profile:", err);
+              alert("Không thể cập nhật thông tin lúc này.");
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

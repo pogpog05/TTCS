@@ -1,0 +1,124 @@
+/* --- Main Layout --- */
+.services-main {
+  padding-top: 80px;
+  padding-bottom: 50px;
+  background-color: #f8f8f8;
+}
+
+.services-main h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+}
+
+.services-main .subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/*   */
+.services-main1 {
+  padding-top: -300px;
+  padding-bottom: 50px;
+  background-color: #f8f8f8;
+}
+
+.services-main1 h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 2.5em;
+}
+
+.services-main1 .subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 40px;
+}
+
+/* --- Dịch vụ Grid --- */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.service-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+}
+
+.service-image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.service-content {
+  padding: 20px;
+}
+
+.service-content h3 {
+  color: #ff7f00;
+  margin-top: 0;
+}
+
+.price {
+  font-weight: bold;
+  color: #333;
+  font-size: 1.1em;
+}
+
+/* --- Combo Section --- */
+.combos-section {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.combos-section h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.combo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.combo-card {
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.combo-card h3 {
+  color: #ff7f00;
+  margin-top: 0;
+}
+
+.original-price {
+  text-decoration: line-through;
+  color: #999;
+  font-size: 0.9em;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
