@@ -1,0 +1,32 @@
+$kind: http-request
+name: 'Lấy thông tin cá nhân'
+method: GET
+url: '{{base_url}}/api/get_profile.php'
+order: 7000
+queryParams:
+  - key: user_id
+    value: '1'
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data có các trường thông tin cá nhân
+  pm.test("Data has profile fields", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.have.property('full_name');
+      pm.expect(json.data).to.have.property('phone');
+      pm.expect(json.data).to.have.property('email');
+  });

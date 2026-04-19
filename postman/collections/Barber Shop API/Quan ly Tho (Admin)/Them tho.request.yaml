@@ -1,0 +1,45 @@
+$kind: http-request
+name: 'Thêm thợ'
+method: POST
+url: '{{base_url}}/add_stylist.php'
+order: 1000
+body:
+  type: formdata
+  content:
+    - key: stylist_name
+      type: text
+      value: 'Thợ Test'
+    - key: stylist_phone
+      type: text
+      value: '0933333333'
+    - key: branch_id
+      type: text
+      value: '1'
+    - key: stylist_status
+      type: text
+      value: active
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Thêm thành công hoặc lỗi hợp lệ
+  pm.test("Add stylist returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+      if (json.status === 'success') {
+          pm.expect(json.message).to.include('thành công');
+      }
+  });

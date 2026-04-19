@@ -1,0 +1,45 @@
+$kind: http-request
+name: 'Cập nhật thợ'
+method: POST
+url: '{{base_url}}/update_stylist.php'
+order: 2000
+body:
+  type: formdata
+  content:
+    - key: stylist_id
+      type: text
+      value: '1'
+    - key: stylist_name
+      type: text
+      value: 'Thợ Cập Nhật'
+    - key: stylist_phone
+      type: text
+      value: '0944444444'
+    - key: branch_id
+      type: text
+      value: '1'
+    - key: stylist_status
+      type: text
+      value: active
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Cập nhật thành công hoặc lỗi hợp lệ
+  pm.test("Update stylist returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+  });

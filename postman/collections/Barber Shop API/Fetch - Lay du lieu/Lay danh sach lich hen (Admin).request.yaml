@@ -1,0 +1,45 @@
+$kind: http-request
+name: 'Lấy danh sách lịch hẹn (Admin)'
+method: GET
+url: '{{base_url}}/api/get_appointments_admin.php'
+order: 1000
+queryParams:
+  - key: date
+    value: '2026-03-24'
+    disabled: true
+  - key: status
+    value: pending
+    disabled: true
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data là một mảng
+  pm.test("Data is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.be.an('array');
+  });
+
+  // Test 5: Mỗi lịch hẹn có các trường bắt buộc
+  pm.test("Each appointment has required fields", function () {
+      const json = pm.response.json();
+      if (json.data.length > 0) {
+          json.data.forEach(function(item) {
+              pm.expect(item).to.have.property('appointment_id');
+              pm.expect(item).to.have.property('status');
+          });
+      }
+  });

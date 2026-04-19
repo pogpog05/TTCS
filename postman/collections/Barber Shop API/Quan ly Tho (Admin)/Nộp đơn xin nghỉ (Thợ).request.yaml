@@ -1,0 +1,20 @@
+$kind: http-request
+name: Nộp đơn xin nghỉ (Thợ)
+url: "{{base_url}}/api/submit_leave.php"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"user_id\": 2,\r
+
+    \  \"start_date\": \"2026-04-10\",\r
+
+    \  \"end_date\": \"2026-04-11\",\r
+
+    \  \"leave_type\": \"Ốm đau\",\r
+
+    \  \"leave_reason\": \"Test thử chức năng xin nghỉ bằng Raw JSON\"\r
+
+    }"
+order: 4164422548324577

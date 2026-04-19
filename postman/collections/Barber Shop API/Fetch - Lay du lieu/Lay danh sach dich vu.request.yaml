@@ -1,0 +1,39 @@
+$kind: http-request
+name: 'Lấy danh sách dịch vụ'
+method: GET
+url: '{{base_url}}/api/get_services_admin.php'
+order: 8000
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data là một mảng
+  pm.test("Data is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.be.an('array');
+  });
+
+  // Test 5: Mỗi dịch vụ có service_id, service_name, price
+  pm.test("Each service has required fields", function () {
+      const json = pm.response.json();
+      if (json.data.length > 0) {
+          json.data.forEach(function(service) {
+              pm.expect(service).to.have.property('service_id');
+              pm.expect(service).to.have.property('service_name');
+              pm.expect(service).to.have.property('price');
+          });
+      }
+  });

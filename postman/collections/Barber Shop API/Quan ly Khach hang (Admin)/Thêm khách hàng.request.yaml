@@ -1,0 +1,23 @@
+$kind: http-request
+name: Thêm khách hàng
+url: "{{base_url}}/add_customer.php"
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: customer_name
+      value: Khách Test
+      description: ""
+      disabled: false
+    - type: text
+      key: customer_phone
+      value: "0999888777"
+      description: ""
+      disabled: false
+    - type: text
+      key: customer_email
+      value: khachtest@gmail.com
+      description: ""
+      disabled: false
+order: 2464299924587401

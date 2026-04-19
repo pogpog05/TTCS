@@ -1,0 +1,41 @@
+$kind: http-request
+name: "Lấy lịch sử đặt hẹn"
+method: GET
+url: "{{base_url}}/api/get_history.php"
+order: 5000
+queryParams:
+  - key: user_id
+    value: "1"
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data là một mảng
+  pm.test("Data is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.be.an('array');
+  });
+
+  // Test 5: Mỗi lịch hẹn có các trường cơ bản
+  pm.test("Each appointment has basic fields", function () {
+      const json = pm.response.json();
+      if (json.data.length > 0) {
+          json.data.forEach(function(appointment) {
+              pm.expect(appointment).to.have.property('appointment_id');
+              pm.expect(appointment).to.have.property('status');
+          });
+      }
+  });

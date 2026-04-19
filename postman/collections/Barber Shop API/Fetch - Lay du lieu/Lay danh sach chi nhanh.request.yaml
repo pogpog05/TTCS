@@ -1,0 +1,38 @@
+$kind: http-request
+name: 'Lấy danh sách chi nhánh'
+method: GET
+url: '{{base_url}}/api/get_branches_admin.php'
+order: 3000
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data là một mảng
+  pm.test("Data is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.be.an('array');
+  });
+
+  // Test 5: Mỗi chi nhánh có branch_id và branch_name
+  pm.test("Each branch has branch_id and branch_name", function () {
+      const json = pm.response.json();
+      if (json.data.length > 0) {
+          json.data.forEach(function(branch) {
+              pm.expect(branch).to.have.property('branch_id');
+              pm.expect(branch).to.have.property('branch_name');
+          });
+      }
+  });

@@ -1,0 +1,40 @@
+$kind: http-request
+name: 'Kiểm tra slot trống'
+method: GET
+url: '{{base_url}}/api/check_slots.php'
+order: 2000
+queryParams:
+  - key: stylist_id
+    value: '1'
+  - key: date
+    value: '2026-03-20'
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: taken_slots là một mảng
+  pm.test("taken_slots is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.taken_slots).to.be.an('array');
+  });
+
+  // Test 5: Các slot có định dạng HH:MM
+  pm.test("Slots are in HH:MM format", function () {
+      const json = pm.response.json();
+      json.taken_slots.forEach(function(slot) {
+          pm.expect(slot).to.match(/^\d{2}:\d{2}$/);
+      });
+  });

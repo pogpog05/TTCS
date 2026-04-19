@@ -1,0 +1,45 @@
+$kind: http-request
+name: 'Cập nhật dịch vụ'
+method: POST
+url: '{{base_url}}/update_service.php'
+order: 2000
+body:
+  type: formdata
+  content:
+    - key: service_id
+      type: text
+      value: '1'
+    - key: service_name
+      type: text
+      value: 'Cắt tóc Cập Nhật'
+    - key: service_price
+      type: text
+      value: '120000'
+    - key: service_duration
+      type: text
+      value: '45'
+    - key: service_description
+      type: text
+      value: 'Mô tả dịch vụ đã cập nhật'
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Cập nhật thành công hoặc lỗi hợp lệ
+  pm.test("Update service returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+  });

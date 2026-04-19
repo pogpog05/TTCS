@@ -1,0 +1,42 @@
+$kind: http-request
+name: 'Lấy danh sách khách hàng'
+method: GET
+url: '{{base_url}}/api/get_customers_admin.php'
+order: 4000
+queryParams:
+  - key: search
+    value: ''
+    disabled: true
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data là một mảng
+  pm.test("Data is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.be.an('array');
+  });
+
+  // Test 5: Mỗi khách hàng có các trường cơ bản
+  pm.test("Each customer has basic fields", function () {
+      const json = pm.response.json();
+      if (json.data.length > 0) {
+          json.data.forEach(function(customer) {
+              pm.expect(customer).to.have.property('user_id');
+              pm.expect(customer).to.have.property('full_name');
+          });
+      }
+  });

@@ -1,0 +1,42 @@
+$kind: http-request
+name: 'Đặt lịch hẹn'
+method: POST
+url: '{{base_url}}/booking_process.php'
+order: 3000
+body:
+  type: json
+  content: |-
+    {
+      "customer_id": 1,
+      "branch_id": 1,
+      "service_id": 1,
+      "stylist_id": 1,
+      "appointment_date": "2026-04-01",
+      "appointment_time": "09:00:00",
+      "notes": "Test đặt lịch"
+    }
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Đặt lịch thành công hoặc lỗi hợp lệ
+  pm.test("Booking returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+      if (json.status === 'success') {
+          pm.expect(json.message).to.include('thành công');
+      }
+  });

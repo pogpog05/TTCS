@@ -1,0 +1,38 @@
+$kind: http-request
+name: 'Lấy đơn xin nghỉ phép'
+method: GET
+url: '{{base_url}}/api/get_leave_requests.php'
+order: 6000
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: status = 'success'
+  pm.test("Response status is success", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.eql('success');
+  });
+
+  // Test 4: data là một mảng
+  pm.test("Data is an array", function () {
+      const json = pm.response.json();
+      pm.expect(json.data).to.be.an('array');
+  });
+
+  // Test 5: Mỗi đơn nghỉ phép có các trường cơ bản
+  pm.test("Each leave request has basic fields", function () {
+      const json = pm.response.json();
+      if (json.data.length > 0) {
+          json.data.forEach(function(leave) {
+              pm.expect(leave).to.have.property('leave_id');
+              pm.expect(leave).to.have.property('status');
+          });
+      }
+  });

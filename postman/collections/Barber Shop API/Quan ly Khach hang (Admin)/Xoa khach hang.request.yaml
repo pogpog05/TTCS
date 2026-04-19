@@ -1,0 +1,30 @@
+$kind: http-request
+name: 'Xóa khách hàng'
+method: GET
+url: '{{base_url}}/delete_customer.php'
+order: 2000
+queryParams:
+  - key: id
+    value: '1'
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Xóa thành công hoặc lỗi hợp lệ
+  pm.test("Delete customer returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+  });

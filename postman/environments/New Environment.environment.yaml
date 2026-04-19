@@ -1,0 +1,6 @@
+name: New Environment
+values:
+  - key: base_url
+    value: 'http://localhost/BTL_Lập trình WEB/barber_shop/backend'
+    enabled: true
+    type: default

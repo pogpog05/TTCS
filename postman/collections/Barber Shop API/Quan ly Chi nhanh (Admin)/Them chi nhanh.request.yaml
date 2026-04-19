@@ -1,0 +1,45 @@
+$kind: http-request
+name: 'Thêm chi nhánh'
+method: POST
+url: '{{base_url}}/add_branch.php'
+order: 1000
+body:
+  type: formdata
+  content:
+    - key: branch_name
+      type: text
+      value: 'Chi nhánh Test'
+    - key: branch_address
+      type: text
+      value: '123 Đường Test, Hà Nội'
+    - key: branch_phone
+      type: text
+      value: '0241234567'
+    - key: branch_email
+      type: text
+      value: 'chinhanh.test@barbershop.com'
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Thêm thành công
+  pm.test("Add branch returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+      if (json.status === 'success') {
+          pm.expect(json.message).to.include('thành công');
+      }
+  });

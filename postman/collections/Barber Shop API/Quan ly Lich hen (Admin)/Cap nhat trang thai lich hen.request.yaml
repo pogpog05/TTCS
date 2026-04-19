@@ -1,0 +1,39 @@
+$kind: http-request
+name: 'Cập nhật trạng thái lịch hẹn'
+method: POST
+url: '{{base_url}}/update_appointment_status.php'
+order: 1000
+body:
+  type: formdata
+  content:
+    - key: appointment_id
+      type: text
+      value: '1'
+    - key: status
+      type: text
+      value: confirmed
+tests: |-
+  // Test 1: Status HTTP phải là 200
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+
+  // Test 2: Response phải là JSON
+  pm.test("Response is JSON", function () {
+      pm.response.to.be.json;
+  });
+
+  // Test 3: Có trường 'status'
+  pm.test("Response has 'status' field", function () {
+      const json = pm.response.json();
+      pm.expect(json).to.have.property('status');
+  });
+
+  // Test 4: Cập nhật thành công hoặc lỗi hợp lệ
+  pm.test("Update appointment status returns valid response", function () {
+      const json = pm.response.json();
+      pm.expect(json.status).to.be.oneOf(['success', 'error']);
+      if (json.status === 'success') {
+          pm.expect(json.message).to.be.a('string');
+      }
+  });
